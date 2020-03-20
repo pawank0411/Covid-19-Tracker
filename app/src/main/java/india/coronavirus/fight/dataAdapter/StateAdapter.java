@@ -35,6 +35,7 @@ import static android.content.ContentValues.TAG;
 
 public class StateAdapter extends RecyclerView.Adapter<StateAdapter.ViewHolder> {
     private ArrayList<ArrayList<StateData>> stateDataList;
+    private double predictedVal[] = new double[300];
     private Context mContext;
     private boolean isClicked;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
@@ -62,6 +63,11 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.ViewHolder> 
         holder.subheading1.setText(stateDataList.get(position).get(position).getSubheading1());
         holder.subheading3.setText(stateDataList.get(position).get(position).getSubheading2());
         holder.subheading2.setText(stateDataList.get(position).get(position).getSubheading3());
+        if (predictedVal[position] != 0.0) {
+            holder.case_predict.setText(df2.format(predictedVal[position]) + " %");
+        } else {
+            holder.case_predict.setText(R.string.prediction);
+        }
 
         holder.case_predict.setOnClickListener(view -> {
             RequestQueue queue = Volley.newRequestQueue(mContext);
@@ -73,7 +79,9 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.ViewHolder> 
                     response -> {
                         try {
                             JSONObject json = new JSONObject(String.valueOf(response));
-                            holder.case_predict.setText(df2.format(json.getDouble("probability")) + " %");
+                            double currProb = json.getDouble("probability");
+                            predictedVal[position] = currProb;
+                            holder.case_predict.setText(df2.format(currProb) + " %");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
