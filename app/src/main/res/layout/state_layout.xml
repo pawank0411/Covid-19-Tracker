@@ -15,11 +15,12 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/heading"
             style="@style/TextAppearance.MaterialComponents.Button"
-            android:layout_width="wrap_content"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@android:color/transparent"
             android:text="Total CASES"
+            android:textColor="#FFFFFF"
             android:textAllCaps="false"
             android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -104,6 +105,7 @@
             android:text="@string/prediction"
             android:textColor="@android:color/holo_red_light"
             android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/heading"
             app:layout_constraintBaseline_toBaselineOf="@+id/heading"
             app:layout_constraintEnd_toEndOf="parent" />
 
