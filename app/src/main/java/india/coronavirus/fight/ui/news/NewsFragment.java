@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,8 @@ import india.coronavirus.fight.model.HeaderData;
 public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickListner {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private NewsAdapter newsAdapter;
     private ArrayList<ArrayList<HeaderData>> headerDataArrayList = new ArrayList<>();
@@ -33,6 +36,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
         View root = inflater.inflate(R.layout.fragment_news, container, false);
 
         ButterKnife.bind(this,root);
+        progressBar.setVisibility(View.VISIBLE);
         newsAdapter = new NewsAdapter(headerDataArrayList, getContext(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
@@ -42,6 +46,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
             if (data1 != null) {
                 headerDataArrayList.add(data1);
                 newsAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
             }
         });
         return root;

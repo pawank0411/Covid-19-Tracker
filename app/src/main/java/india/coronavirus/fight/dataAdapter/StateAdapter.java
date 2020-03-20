@@ -35,9 +35,8 @@ import static android.content.ContentValues.TAG;
 
 public class StateAdapter extends RecyclerView.Adapter<StateAdapter.ViewHolder> {
     private ArrayList<ArrayList<StateData>> stateDataList;
-    private double predictedVal[] = new double[300];
+    private double[] predictedVal = new double[300];
     private Context mContext;
-    private boolean isClicked;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
 
     public StateAdapter(ArrayList<ArrayList<StateData>> stateDataList, Context mContext) {
@@ -96,7 +95,6 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.ViewHolder> 
                 }
             };
             jsonObjReq.setTag(TAG);
-            // Adding request to request queue
             queue.add(jsonObjReq);
         });
     }
