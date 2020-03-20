@@ -4,16 +4,11 @@ public class HeaderData {
     private String cases;
     private String header;
     private String subheader;
-    private String news;
 
     public HeaderData(String cases, String header, String subheader) {
         this.cases = cases;
         this.header = header;
         this.subheader = subheader;
-    }
-
-    public HeaderData(String news) {
-        this.news = news;
     }
 
     public String getSubheader() {
@@ -41,11 +36,4 @@ public class HeaderData {
         this.cases = cases;
     }
 
-    public String getNews() {
-        return news;
-    }
-
-    public void setNews(String news) {
-        this.news = news;
-    }
 }

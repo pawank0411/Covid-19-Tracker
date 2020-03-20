@@ -1,11 +1,12 @@
 package india.coronavirus.fight.ui.news;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 import india.coronavirus.fight.R;
 import india.coronavirus.fight.dataAdapter.NewsAdapter;
 import india.coronavirus.fight.model.HeaderData;
+import india.coronavirus.fight.model.NewData;
 
 public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickListner {
     @BindView(R.id.recyclerView)
@@ -29,13 +31,13 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
     ProgressBar progressBar;
 
     private NewsAdapter newsAdapter;
-    private ArrayList<ArrayList<HeaderData>> headerDataArrayList = new ArrayList<>();
+    private ArrayList<ArrayList<NewData>> headerDataArrayList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         NewsViewModel dashboardViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_news, container, false);
 
-        ButterKnife.bind(this,root);
+        ButterKnife.bind(this, root);
         progressBar.setVisibility(View.VISIBLE);
         newsAdapter = new NewsAdapter(headerDataArrayList, getContext(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -54,6 +56,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
 
     @Override
     public void onNewsClicked(String link) {
-        Toast.makeText(getContext(), "Clicked : " + link, Toast.LENGTH_SHORT).show();
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+        startActivity(browserIntent);
     }
 }

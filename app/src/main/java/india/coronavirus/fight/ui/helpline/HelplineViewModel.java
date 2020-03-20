@@ -1,4 +1,4 @@
-package india.coronavirus.fight.ui.news;
+package india.coronavirus.fight.ui.helpline;
 
 import android.app.Application;
 import android.util.Log;
@@ -19,19 +19,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import india.coronavirus.fight.model.HeaderData;
-import india.coronavirus.fight.model.NewData;
+import india.coronavirus.fight.model.StateData;
 
-public class NewsViewModel extends AndroidViewModel {
+public class HelplineViewModel extends AndroidViewModel {
+    private MutableLiveData<ArrayList<StateData>> dataMutableLiveData;
+    private ArrayList<StateData> headerData = new ArrayList<>();
 
-    private MutableLiveData<ArrayList<NewData>> dataMutableLiveData;
-    private ArrayList<NewData> headerData = new ArrayList<>();
-
-    public NewsViewModel(Application application) {
+    public HelplineViewModel(Application application) {
         super(application);
     }
 
-    LiveData<ArrayList<NewData>> getData() {
+    LiveData<ArrayList<StateData>> getData() {
         if (dataMutableLiveData == null) {
             dataMutableLiveData = new MutableLiveData<>();
             refreshData();
@@ -42,19 +40,21 @@ public class NewsViewModel extends AndroidViewModel {
     private void refreshData() {
         //predict and state => POST
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://6ccad673.ngrok.io/api/news", response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://6ccad673.ngrok.io/api/helpline", response -> {
             try {
                 JSONObject json = new JSONObject(response);
-                JSONArray jsonArray = json.getJSONArray("news");
-                for (int i= 0; i < jsonArray.length(); i++) {
+                JSONArray jsonArray = json.getJSONArray("helpline");
+                for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    headerData.add(new NewData(jsonObject.getString("title"),jsonObject.getString("link"),jsonObject.getString("time")));
+
+                    headerData.add(new StateData(jsonObject.getString("state"), jsonObject.getString("phone")));
                     dataMutableLiveData.setValue(headerData);
                 }
             } catch (JSONException e) {
                 Log.e("Error", String.valueOf(e));
             }
         }, error -> Log.d("Error", Objects.requireNonNull(error.toString())));
+        //adding the string request to request queue
         requestQueue.add(stringRequest);
     }
 }

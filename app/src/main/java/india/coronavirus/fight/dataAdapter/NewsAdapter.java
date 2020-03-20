@@ -9,19 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textview.MaterialTextView;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import india.coronavirus.fight.R;
-import india.coronavirus.fight.model.HeaderData;
+import india.coronavirus.fight.model.NewData;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
-    private ArrayList<ArrayList<HeaderData>> headerDataList;
+    private ArrayList<ArrayList<NewData>> headerDataList;
     private Context mContext;
     private OnItemClickListner listner;
 
-    public NewsAdapter(ArrayList<ArrayList<HeaderData>> headerDataList, Context mContext, OnItemClickListner listner) {
+    public NewsAdapter(ArrayList<ArrayList<NewData>> headerDataList, Context mContext, OnItemClickListner listner) {
         this.headerDataList = headerDataList;
         this.mContext = mContext;
         this.listner = listner;
@@ -38,9 +40,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull NewsAdapter.ViewHolder holder, int position) {
         holder.new_Card.setOnClickListener(view -> {
             if (listner != null) {
-                listner.onNewsClicked(headerDataList.get(position).get(position).getNews());
+                listner.onNewsClicked(headerDataList.get(position).get(position).getLink());
             }
         });
+        holder.title.setText(headerDataList.get(position).get(position).getTitle());
+        holder.time.setText(headerDataList.get(position).get(position).getTime());
     }
 
     @Override
@@ -51,6 +55,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.newCard)
         CardView new_Card;
+        @BindView(R.id.news_title)
+        MaterialTextView title;
+        @BindView(R.id.news_time)
+        MaterialTextView time;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -8,6 +8,7 @@ public class StateData {
     private String subheading1;
     private String subheading2;
     private String subheading3;
+    private String helpline;
 
     public StateData(String statename, String cases, String cured, String death, String subheading1, String subheading2, String subheading3) {
         this.statename = statename;
@@ -17,6 +18,19 @@ public class StateData {
         this.subheading1 = subheading1;
         this.subheading2 = subheading2;
         this.subheading3 = subheading3;
+    }
+
+    public StateData(String state, String phone) {
+        this.statename = state;
+        this.helpline = phone;
+    }
+
+    public String getHelpline() {
+        return helpline;
+    }
+
+    public void setHelpline(String helpline) {
+        this.helpline = helpline;
     }
 
     public String getStatename() {

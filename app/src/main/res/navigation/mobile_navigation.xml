@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="india.coronavirus.fight.ui.guides.NotificationsFragment"
+        android:name="india.coronavirus.fight.ui.helpline.HelplineFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_guides" />
+        tools:layout="@layout/fragment_helpline" />
 </navigation>
