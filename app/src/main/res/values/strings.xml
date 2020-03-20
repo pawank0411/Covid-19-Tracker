@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Covid-19</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">News</string>
+    <string name="title_notifications">Guides</string>
+    <string name="title_statewise">StateWise Stats</string>
+    <string name="prediction"><u>Cases Expected</u></string>
+    <style name="URL">http://lexluthor.pythonanywhere.com/api</style>
+    <style name="URL_update">http://lexluthor.pythonanywhere.com/update/SpeedX</style>
+</resources>
