@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "424149091891",
+    "firebase_url": "https://covid-19-6215a.firebaseio.com",
+    "project_id": "covid-19-6215a",
+    "storage_bucket": "covid-19-6215a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424149091891:android:e9d2a1cd632aabfa6bc546",
+        "android_client_info": {
+          "package_name": "india.coronavirus.fight"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424149091891-dvbainkbrqv1qsaitcrl291kffhksha6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "india.coronavirus.fight",
+            "certificate_hash": "2ecb499e4260a542f956655a23c5ed53de8e28c7"
+          }
+        },
+        {
+          "client_id": "424149091891-ts28uk36qsg1jejg0at16geg2ng3r3up.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZprqqrGvsf41sy-Zr5zhbUzOntpIYmzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424149091891-ts28uk36qsg1jejg0at16geg2ng3r3up.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

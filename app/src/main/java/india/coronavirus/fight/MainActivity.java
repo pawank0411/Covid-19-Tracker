@@ -2,8 +2,8 @@ package india.coronavirus.fight;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -36,24 +36,27 @@ public class MainActivity extends AppCompatActivity {
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .init();
-        startService(new Intent(this, APIService.class));
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            startForegroundService(new Intent(this, APIService.class));
+//        } else {
+//            startService(new Intent(this, APIService.class));
+//        }
+//
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
-        PowerManager pm = (PowerManager) this.getSystemService(POWER_SERVICE);
-        String packageName = this.getPackageName();
-        if (pm != null && !pm.isIgnoringBatteryOptimizations(packageName)) {
-            Snackbar.make(constraintLayout, "Allow app to run in background to get Notifications", Snackbar.LENGTH_INDEFINITE).setActionTextColor(Color.RED).setAction("Allow", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openPowerSettings(MainActivity.this);
-                }
-            }).show();
-        }
+//        PowerManager pm = (PowerManager) this.getSystemService(POWER_SERVICE);
+//        String packageName = this.getPackageName();
+//        if (pm != null && !pm.isIgnoringBatteryOptimizations(packageName)) {
+//            Snackbar.make(constraintLayout, "Allow app to run in background to get Notifications", Snackbar.LENGTH_INDEFINITE).setActionTextColor(Color.RED).setAction("Allow", new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    openPowerSettings(MainActivity.this);
+//                }
+//            }).show();
+//        }
     }
 
     @Override

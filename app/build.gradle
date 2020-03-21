@@ -12,7 +12,8 @@ repositories {
     maven { url 'https://maven.google.com' }
 }
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -73,6 +74,10 @@ dependencies {
 
     // OneSignal SDK
     implementation 'com.onesignal:OneSignal:3.12.4'
+
+    //firebase
+    implementation 'com.google.firebase:firebase-analytics:17.2.3'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta02'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

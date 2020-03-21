@@ -81,6 +81,7 @@ public class HomeViewModel extends AndroidViewModel {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://6ccad673.ngrok.io/api/total", response -> {
             try {
                 JSONObject json = new JSONObject(response);
+                Log.d("response", String.valueOf(json));
                 String filtered = "{\"stats\": [{\"stat1\":\"" + json.getInt("cases") +
                         "\"," + "\"oldcount\":\"" + preferences.getInt("new_case", 0) + "\",\"heading\":\"Total CASES\",\"subheading\":Total}," +
                         "{\"stat1\":\"" + json.getInt("cured") +
@@ -88,7 +89,7 @@ public class HomeViewModel extends AndroidViewModel {
                         "{\"stat1\":\"" + json.getInt("death") +
                         "\"," + "\"oldcount\":\"" + preferences.getInt("new_death", 0) + "\",\"heading\":\"Death CASES\",\"subheading\":Deaths}," +
                         "{\"stat1\":\"" + json.getInt("hospitalized") +
-                        "\"," + "\"oldcount\":\"" + preferences.getInt("new_hospitalized",0) + "\",\"heading\":\"Hospitalized CASES\",\"subheading\":Hospitalized}]}";
+                        "\"," + "\"oldcount\":\"" + preferences.getInt("new_hospitalized", 0) + "\",\"heading\":\"Hospitalized CASES\",\"subheading\":Hospitalized}]}";
 
                 JSONObject jsonObject = new JSONObject(filtered);
                 JSONArray jsonArray = jsonObject.getJSONArray("stats");
