@@ -1,10 +1,15 @@
 <resources>
-    <string name="app_name">covid19 India</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">News</string>
-    <string name="title_notifications">Helpline</string>
-    <string name="title_guides">Guides</string>
-    <string name="title_statewise">State Stats</string>
-    <string name="prediction"><u>Predicted infection rate</u></string>
-    <string name="the_helpline_number_for_corona_virus_91_11_23978046_toll_free_no_1075">The Helpline Number for corona–virus : +91–11–23978046 Toll Free No: 1075</string>
+<string name="app_name">COVID19 India</string>
+<string name="title_home">Home</string>
+<string name="title_dashboard">News</string>
+<string name="title_notifications">Helpline</string>
+<string name="title_guides">Guides</string>
+<string name="title_statewise">State Stats</string>
+<string name="prediction"><u>Predicted infection rate</u></string>
+<string name="the_helpline_number_for_corona_virus_91_11_23978046_toll_free_no_1075">The Helpline Number for corona–virus : +91–11–23978046 Toll Free No: 1075</string>
+<string name="about">About</string>
+<string name="pawan0411"><u>Pawan0411</u></string>
+<string name="speedx"><u>SpeedX</u></string>
+<string name="update"><u>Update Available : </u></string>
+<string name="this_app_is_about_updates_related_to_coronavirus_in_india">This app is about updates related to coronavirus in India.</string>
 </resources>

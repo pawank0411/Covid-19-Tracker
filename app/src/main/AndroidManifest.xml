@@ -3,8 +3,8 @@
     package="india.coronavirus.fight">
 
     <uses-permission android:name="android.permission.INTERNET" />
-<!--    <uses-permission android:name="android.permission.VIBRATE" />-->
-<!--    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
+    <!--    <uses-permission android:name="android.permission.VIBRATE" />-->
+    <!--    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
 
 
     <application
@@ -24,6 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".About" />
+
         <service
             android:name=".APIService"
             android:enabled="true"
@@ -32,28 +34,28 @@
             android:process=":service"
             android:stopWithTask="false" />
 
-<!--        <receiver-->
-<!--            android:name=".Notification"-->
-<!--            android:enabled="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
-<!--                <action android:name="android.intent.action.USER_PRESENT" />-->
-<!--                <action android:name="android.intent.action.PACKAGE_RESTARTED" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
-<!--        <receiver-->
-<!--            android:name=".Restarter"-->
-<!--            android:enabled="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
-<!--                <action android:name="android.intent.action.USER_PRESENT" />-->
-<!--                <action android:name="android.intent.action.PACKAGE_RESTARTED" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
+        <!--        <receiver-->
+        <!--            android:name=".Notification"-->
+        <!--            android:enabled="true">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
+        <!--                <action android:name="android.intent.action.USER_PRESENT" />-->
+        <!--                <action android:name="android.intent.action.PACKAGE_RESTARTED" />-->
+        <!--            </intent-filter>-->
+        <!--        </receiver>-->
+        <!--        <receiver-->
+        <!--            android:name=".Restarter"-->
+        <!--            android:enabled="true">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
+        <!--                <action android:name="android.intent.action.USER_PRESENT" />-->
+        <!--                <action android:name="android.intent.action.PACKAGE_RESTARTED" />-->
+        <!--            </intent-filter>-->
+        <!--        </receiver>-->
 
-<!--        <meta-data-->
-<!--            android:name="com.google.android.gms.version"-->
-<!--            android:value="@integer/google_play_services_version" />-->
+        <!--        <meta-data-->
+        <!--            android:name="com.google.android.gms.version"-->
+        <!--            android:value="@integer/google_play_services_version" />-->
     </application>
 
 </manifest>
