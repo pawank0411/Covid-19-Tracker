@@ -1,6 +1,7 @@
 package india.coronavirus.fight.ui.statewise;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,8 @@ import java.util.Objects;
 
 import india.coronavirus.fight.model.StateData;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class StateViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArrayList<StateData>> dataMutableLiveData;
@@ -41,14 +44,15 @@ public class StateViewModel extends AndroidViewModel {
 
     private void refreshData() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://6ccad673.ngrok.io/api/all", response -> {
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://6ccad673.ngrok.io") + "/api/all", response -> {
             try {
                 JSONObject json = new JSONObject(response);
                 JSONArray jsonA = json.getJSONArray("all");
                 for (int j = 0; j < jsonA.length(); j++) {
                     JSONObject js = jsonA.getJSONObject(j);
                     String statename = toTitleCase(js.getString("state"));
-                    stateDataArrayList.add(new StateData(statename , js.getString("cases"),
+                    stateDataArrayList.add(new StateData(statename, js.getString("cases"),
                             js.getString("cured"), js.getString("death"), "Cases",
                             "Cured", "Deaths"));
                     dataMutableLiveData.setValue(stateDataArrayList);
@@ -59,6 +63,7 @@ public class StateViewModel extends AndroidViewModel {
         }, error -> Log.d("Error", Objects.requireNonNull(error.toString())));
         requestQueue.add(stringRequest);
     }
+
     public static String toTitleCase(String str) {
 
         if (str == null) {

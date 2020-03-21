@@ -1,6 +1,7 @@
 package india.coronavirus.fight.ui.news;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -22,6 +23,8 @@ import java.util.Objects;
 import india.coronavirus.fight.model.HeaderData;
 import india.coronavirus.fight.model.NewData;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class NewsViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArrayList<NewData>> dataMutableLiveData;
@@ -42,7 +45,8 @@ public class NewsViewModel extends AndroidViewModel {
     private void refreshData() {
         //predict and state => POST
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://6ccad673.ngrok.io/api/news", response -> {
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,   sharedPreferences.getString("API","http://6ccad673.ngrok.io")+ "/api/news", response -> {
             try {
                 JSONObject json = new JSONObject(response);
                 JSONArray jsonArray = json.getJSONArray("news");

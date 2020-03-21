@@ -1,7 +1,6 @@
 package india.coronavirus.fight.ui.home;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -23,16 +22,18 @@ import java.util.Objects;
 
 import india.coronavirus.fight.model.HeaderData;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class HomeViewModel extends AndroidViewModel {
     private MutableLiveData<ArrayList<HeaderData>> dataMutableLiveData;
     private ArrayList<HeaderData> headerData = new ArrayList<>();
     private int new_cases, new_cured, new_death, oldhospitalized;
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
     public HomeViewModel(Application application) {
         super(application);
-        preferences = getApplication().getSharedPreferences("NEWDATA", Context.MODE_PRIVATE);
+        preferences = getApplication().getSharedPreferences("NEWDATA", MODE_PRIVATE);
     }
 
     LiveData<ArrayList<HeaderData>> getData() {
@@ -78,7 +79,8 @@ public class HomeViewModel extends AndroidViewModel {
         });
         requestQueue.add(stringReques);
         //Need to be continued -> sharedPrefernces
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://6ccad673.ngrok.io/api/total", response -> {
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://6ccad673.ngrok.io") + "/api/total", response -> {
             try {
                 JSONObject json = new JSONObject(response);
                 Log.d("response", String.valueOf(json));
