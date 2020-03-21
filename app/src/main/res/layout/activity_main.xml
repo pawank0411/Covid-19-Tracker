@@ -9,16 +9,16 @@
         android:id="@+id/marquee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
-        android:layout_marginTop="5dp"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textStyle="bold"
-        android:text="The Helpline Number for corona-virus : +91-11-23978046 Toll Free No: 1075"
+        android:text="@string/the_helpline_number_for_corona_virus_91_11_23978046_toll_free_no_1075"
         android:textColor="@android:color/holo_red_light"
         android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
     <fragment

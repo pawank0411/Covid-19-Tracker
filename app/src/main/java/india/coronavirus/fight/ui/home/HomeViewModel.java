@@ -24,7 +24,7 @@ import india.coronavirus.fight.model.HeaderData;
 public class HomeViewModel extends AndroidViewModel {
     private MutableLiveData<ArrayList<HeaderData>> dataMutableLiveData;
     private ArrayList<HeaderData> headerData = new ArrayList<>();
-
+    private int new_cases, new_cured, new_death;
     public HomeViewModel(Application application) {
         super(application);
     }
@@ -40,12 +40,30 @@ public class HomeViewModel extends AndroidViewModel {
     private void refreshData() {
         //predict and state => POST
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
+        StringRequest stringReques = new StringRequest(Request.Method.GET,"http://6ccad673.ngrok.io/api/total",response -> {
+            try {
+                JSONObject jsonObject = new JSONObject();
+                new_cases = Integer.parseInt(jsonObject.getString("cases"));
+                new_cured = Integer.parseInt(jsonObject.getString("cured"));
+                new_death = Integer.parseInt(jsonObject.getString("death"));
+            } catch (JSONException e) {
+                Log.d("Error", e.getMessage());
+            }
+        }, error -> {
+
+        });
+        //Need to be continued -> sharedPrefernces
         StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://6ccad673.ngrok.io/api/total", response -> {
             try {
                 JSONObject json = new JSONObject(response);
-                String filtered = "{\"stats\": [{\"stat1\":\"" + json.getInt("cases") + "\",\"heading\":\"Total CASES\",\"subheading\":Total}," +
-                        "{\"stat1\":\"" + json.getInt("cured") + "\",\"heading\":\"Recovered CASES\",\"subheading\":Recovered}," +
-                        "{\"stat1\":\"" + json.getInt("death") + "\",\"heading\":\"Death CASES\",\"subheading\":Deaths}]}";
+                String filtered = "{\"stats\": [{\"stat1\":\"" + json.getInt("cases") +
+                        "\",\"heading\":\"Total CASES\",\"subheading\":Total}," +
+                        "{\"stat1\":\"" + json.getInt("cured") +
+                        "\",\"heading\":\"Recovered CASES\",\"subheading\":Recovered}," +
+                        "{\"stat1\":\"" + json.getInt("hospitalized") +
+                        "\",\"heading\":\"Hospitalized CASES\",\"subheading\":Hospita}," +
+                        "{\"stat1\":\"" + json.getInt("death") +
+                        "\",\"heading\":\"Death CASES\",\"subheading\":Deaths}]}";
 
                 JSONObject jsonObject = new JSONObject(filtered);
                 JSONArray jsonArray = jsonObject.getJSONArray("stats");

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import india.coronavirus.fight.R;
-import india.coronavirus.fight.model.HeaderData;
 import india.coronavirus.fight.model.StateData;
 
 public class HelplineAdapter extends RecyclerView.Adapter<HelplineAdapter.ViewHolder> {
@@ -29,6 +28,7 @@ public class HelplineAdapter extends RecyclerView.Adapter<HelplineAdapter.ViewHo
         this.headerDataList = headerDatalist;
         this.mContext = context;
     }
+
     @NonNull
     @Override
     public HelplineAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,7 +45,7 @@ public class HelplineAdapter extends RecyclerView.Adapter<HelplineAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + Integer.parseInt(headerDataList.get(position).get(position).getHelpline().trim())));
+                intent.setData(Uri.parse("tel:" + headerDataList.get(position).get(position).getHelpline().trim()));
                 mContext.startActivity(intent);
             }
         });

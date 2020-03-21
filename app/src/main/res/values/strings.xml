@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">Covid-19</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">News</string>
-    <string name="title_notifications">Helpline</string>
-    <string name="title_statewise">StateWise Stats</string>
-    <string name="prediction"><u>Cases Expected</u></string>
-    <style name="URL">http://lexluthor.pythonanywhere.com/api</style>
-    <style name="URL_update">http://lexluthor.pythonanywhere.com/update/SpeedX</style>
+<string name="app_name">covid19 India</string>
+<string name="title_home">Home</string>
+<string name="title_dashboard">News</string>
+<string name="title_notifications">Helpline</string>
+<string name="title_statewise">StateWise Stats</string>
+<string name="prediction"><u>Cases Expected</u></string>
+<string name="the_helpline_number_for_corona_virus_91_11_23978046_toll_free_no_1075">The Helpline Number for corona–virus : +91–11–23978046 Toll Free No: 1075</string>
 </resources>

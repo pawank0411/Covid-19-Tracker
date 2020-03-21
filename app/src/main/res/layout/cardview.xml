@@ -51,5 +51,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/totalcase" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/newcase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="10dp"
+            android:text="15,249"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            app:layout_constraintBaseline_toBaselineOf="@+id/totalcase"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/heading" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/subheading2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="New"
+            android:textSize="20sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/subheading1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subheading1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

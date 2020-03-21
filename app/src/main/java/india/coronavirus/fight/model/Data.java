@@ -4,8 +4,28 @@ public class Data {
     private String heading;
     private int totalCase;
     private int newCase;
+    private int hospitalized;
     private String subHeading1;
     private String subHeading2;
+    private String subHeading3;
+
+
+    public int getHospitalized() {
+        return hospitalized;
+    }
+
+    public void setHospitalized(int hospitalized) {
+        this.hospitalized = hospitalized;
+    }
+
+    public String getSubHeading3() {
+        return subHeading3;
+    }
+
+    public void setSubHeading3(String subHeading3) {
+        this.subHeading3 = subHeading3;
+    }
+
 
     public String getHeading() {
         return heading;
