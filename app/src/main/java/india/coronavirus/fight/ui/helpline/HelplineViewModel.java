@@ -3,6 +3,7 @@ package india.coronavirus.fight.ui.helpline;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -44,15 +45,21 @@ public class HelplineViewModel extends AndroidViewModel {
         //predict and state => POST
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,  sharedPreferences.getString("API", "http://6ccad673.ngrok.io") + "/api/helpline", response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://6ccad673.ngrok.io") + "/api/helpline", response -> {
             try {
                 JSONObject json = new JSONObject(response);
                 JSONArray jsonArray = json.getJSONArray("helpline");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    headerData.add(new StateData(jsonObject.getString("state"), jsonObject.getString("phone")));
-                    dataMutableLiveData.setValue(headerData);
+                    String sr;
+                    if (jsonObject.getString("state").contains("&amp;")) {
+                        sr = jsonObject.getString("state").replace("&amp;", "&");
+                        headerData.add(new StateData(sr, jsonObject.getString("phone")));
+                        dataMutableLiveData.setValue(headerData);
+                    } else {
+                        headerData.add(new StateData(jsonObject.getString("state"), jsonObject.getString("phone")));
+                        dataMutableLiveData.setValue(headerData);
+                    }
                 }
             } catch (JSONException e) {
                 Log.e("Error", String.valueOf(e));

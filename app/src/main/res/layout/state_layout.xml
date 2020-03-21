@@ -12,21 +12,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/heading"
-            style="@style/TextAppearance.MaterialComponents.Button"
-            android:layout_width="180dp"
+        <RelativeLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/lightBlue"
-            android:text="Total CASES"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/heading"
+                style="@style/TextAppearance.MaterialComponents.Button"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/lightBlue"
+                android:maxLines="3"
+                android:text="Total CASES"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/predicted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="42dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/heading"
+                android:text="@string/prediction"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_light"
+                android:textStyle="bold" />
+        </RelativeLayout>
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/totalcase"
             android:layout_width="wrap_content"
@@ -38,7 +59,7 @@
             android:textColor="@android:color/black"
             android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/heading" />
+            app:layout_constraintTop_toBottomOf="@+id/linear" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/subheading1"
@@ -90,7 +111,7 @@
             android:textSize="30sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/totalcase"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/heading" />
+            app:layout_constraintTop_toBottomOf="@+id/linear" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/subheading2"
@@ -104,17 +125,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subheading1" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/predicted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:text="@string/prediction"
-            android:textColor="@android:color/holo_red_light"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/heading"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/heading" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

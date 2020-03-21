@@ -10,7 +10,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/statename"
-            android:layout_width="wrap_content"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="StateName"
