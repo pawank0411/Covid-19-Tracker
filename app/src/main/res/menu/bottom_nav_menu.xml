@@ -21,4 +21,9 @@
         android:icon="@drawable/cellphone"
         android:title="@string/title_notifications" />
 
+    <item
+        android:id="@+id/navigation_guides"
+        android:icon="@drawable/format_list_bulleted"
+        android:title="@string/title_guides" />
+
 </menu>

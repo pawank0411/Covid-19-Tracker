@@ -24,7 +24,6 @@ public class StateData {
         this.statename = state;
         this.helpline = phone;
     }
-
     public String getHelpline() {
         return helpline;
     }

@@ -1,15 +1,14 @@
 package india.coronavirus.fight.model;
 
-public class NewData {
+public class GuideData {
     private String title;
     private String link;
-    private String time;
     private String desp;
 
-    public NewData(String title, String link, String time) {
+    public GuideData(String title, String link, String desp) {
         this.title = title;
         this.link = link;
-        this.time = time;
+        this.desp = desp;
     }
     public String getDesp() {
         return desp;
@@ -34,14 +33,5 @@ public class NewData {
     public void setLink(String link) {
         this.link = link;
     }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
 
 }

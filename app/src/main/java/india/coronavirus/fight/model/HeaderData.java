@@ -4,11 +4,22 @@ public class HeaderData {
     private String cases;
     private String header;
     private String subheader;
+    private String newcase;
 
-    public HeaderData(String cases, String header, String subheader) {
+    public HeaderData(String cases, String header, String subheader, String new_case) {
         this.cases = cases;
         this.header = header;
         this.subheader = subheader;
+        this.newcase = new_case;
+
+    }
+
+    public String getNewcase() {
+        return newcase;
+    }
+
+    public void setNewcase(String newcase) {
+        this.newcase = newcase;
     }
 
     public String getSubheader() {

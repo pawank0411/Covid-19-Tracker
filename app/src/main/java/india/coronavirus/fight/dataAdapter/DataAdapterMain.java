@@ -39,6 +39,7 @@ public class DataAdapterMain extends RecyclerView.Adapter<DataAdapterMain.ViewHo
         holder.heading_card.setText(headerDataList.get(position).get(position).getHeader());
         holder.total_case.setText(headerDataList.get(position).get(position).getCases());
         holder.sub_heading_1.setText(headerDataList.get(position).get(position).getSubheader());
+        holder.new_case.setText(headerDataList.get(position).get(position).getNewcase());
     }
 
     @Override
@@ -51,12 +52,12 @@ public class DataAdapterMain extends RecyclerView.Adapter<DataAdapterMain.ViewHo
         MaterialButton heading_card;
         @BindView(R.id.totalcase)
         MaterialTextView total_case;
-        //        @BindView(R.id.newcase)
-//        MaterialTextView new_case;
+        @BindView(R.id.newcase)
+        MaterialTextView new_case;
         @BindView(R.id.subheading1)
         MaterialTextView sub_heading_1;
-//        @BindView(R.id.subheading2)
-//        MaterialTextView sub_heading_2;
+        @BindView(R.id.subheading2)
+        MaterialTextView sub_heading_2;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -28,4 +28,10 @@
         android:name="india.coronavirus.fight.ui.helpline.HelplineFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_helpline" />
+
+    <fragment
+        android:id="@+id/navigation_guides"
+        android:name="india.coronavirus.fight.ui.guides.GuideFragment"
+        android:label="@string/title_guides"
+        tools:layout="@layout/fragment_guide" />
 </navigation>
