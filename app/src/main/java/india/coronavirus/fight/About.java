@@ -24,6 +24,7 @@ public class About extends AppCompatActivity {
         MaterialTextView check = findViewById(R.id.update_available);
         MaterialTextView pawan = findViewById(R.id.pawan);
         MaterialTextView sppedx = findViewById(R.id.speedx);
+        MaterialTextView desp = findViewById(R.id.desp);
         CollectionReference apiCollection = FirebaseFirestore.getInstance().collection("update");
         apiCollection.addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (queryDocumentSnapshots != null) {
@@ -31,7 +32,8 @@ public class About extends AppCompatActivity {
                     update = documentChange.getDocument().getBoolean("available");
                     if (update) {
                         check.setVisibility(View.VISIBLE);
-                        check.setText(Html.fromHtml("<u>Update Available : </u>"));
+                        desp.setVisibility(View.VISIBLE);
+                        check.setText(Html.fromHtml("<u>Update Available : http://tiny.cc/covid-19india</u>"));
                     }
 
                 }
