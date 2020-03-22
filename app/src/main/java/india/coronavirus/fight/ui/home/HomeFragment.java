@@ -24,7 +24,7 @@ import india.coronavirus.fight.model.HeaderData;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private ArrayList<ArrayList<HeaderData>> headerDatalist = new ArrayList<ArrayList<HeaderData>>();;
+    private ArrayList<HeaderData> headerDatalist = new ArrayList<HeaderData>();;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.progress_bar)
@@ -44,7 +44,8 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(dataAdapter);
         homeViewModel.getData().observe(Objects.requireNonNull(getActivity()), data1 -> {
             if (data1 != null) {
-                headerDatalist.add(data1);
+                headerDatalist.clear();
+                headerDatalist.addAll(data1);
                 dataAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             }

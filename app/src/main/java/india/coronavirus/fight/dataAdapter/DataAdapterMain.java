@@ -12,6 +12,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,10 +20,10 @@ import india.coronavirus.fight.R;
 import india.coronavirus.fight.model.HeaderData;
 
 public class DataAdapterMain extends RecyclerView.Adapter<DataAdapterMain.ViewHolder> {
-    private ArrayList<ArrayList<HeaderData>> headerDataList;
+    private List<HeaderData> headerDataList;
     private Context mContext;
 
-    public DataAdapterMain(ArrayList<ArrayList<HeaderData>> headerDatalist, Context context) {
+    public DataAdapterMain(ArrayList<HeaderData> headerDatalist, Context context) {
         this.headerDataList = headerDatalist;
         this.mContext = context;
     }
@@ -36,10 +37,11 @@ public class DataAdapterMain extends RecyclerView.Adapter<DataAdapterMain.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull DataAdapterMain.ViewHolder holder, int position) {
-        holder.heading_card.setText(headerDataList.get(position).get(position).getHeader());
-        holder.total_case.setText(headerDataList.get(position).get(position).getCases());
-        holder.sub_heading_1.setText(headerDataList.get(position).get(position).getSubheader());
-        holder.new_case.setText(headerDataList.get(position).get(position).getNewcase());
+//        Toast.makeText(mContext, String.valueOf(position), Toast.LENGTH_SHORT).show();
+        holder.heading_card.setText(headerDataList.get(position).getHeader());
+        holder.total_case.setText(headerDataList.get(position).getCases());
+        holder.sub_heading_1.setText(headerDataList.get(position).getSubheader());
+        holder.new_case.setText(headerDataList.get(position).getNewcase());
     }
 
     @Override

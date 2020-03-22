@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import india.coronavirus.fight.model.HeaderData;
@@ -25,7 +26,7 @@ import india.coronavirus.fight.model.HeaderData;
 import static android.content.Context.MODE_PRIVATE;
 
 public class HomeViewModel extends AndroidViewModel {
-    private MutableLiveData<ArrayList<HeaderData>> dataMutableLiveData;
+    private MutableLiveData<List<HeaderData>> dataMutableLiveData;
     private ArrayList<HeaderData> headerData = new ArrayList<>();
     private int new_cases, new_cured, new_death, oldhospitalized;
     private SharedPreferences preferences;
@@ -36,7 +37,7 @@ public class HomeViewModel extends AndroidViewModel {
         preferences = getApplication().getSharedPreferences("NEWDATA", MODE_PRIVATE);
     }
 
-    LiveData<ArrayList<HeaderData>> getData() {
+    LiveData<List<HeaderData>> getData() {
         if (dataMutableLiveData == null) {
             dataMutableLiveData = new MutableLiveData<>();
             refreshData();
@@ -97,7 +98,6 @@ public class HomeViewModel extends AndroidViewModel {
                 JSONArray jsonArray = jsonObject.getJSONArray("stats");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-
                     headerData.add(new HeaderData(jsonObject1.getString("stat1"), jsonObject1.getString("heading"), jsonObject1.getString("subheading"), jsonObject1.getString("oldcount")));
                     dataMutableLiveData.setValue(headerData);
                 }
