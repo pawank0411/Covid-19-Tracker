@@ -46,7 +46,7 @@ public class NewsViewModel extends AndroidViewModel {
         //predict and state => POST
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,   sharedPreferences.getString("API","http://6ccad673.ngrok.io")+ "/api/news", response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,   sharedPreferences.getString("API","http://ac41bf31.ngrok.io")+ "/api/news", response -> {
             try {
                 JSONObject json = new JSONObject(response);
                 JSONArray jsonArray = json.getJSONArray("news");

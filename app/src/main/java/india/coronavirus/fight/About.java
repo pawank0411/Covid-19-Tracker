@@ -35,9 +35,14 @@ public class About extends AppCompatActivity {
                         desp.setVisibility(View.VISIBLE);
                         check.setText(Html.fromHtml("<u>Update Available : http://tiny.cc/covid-19india</u>"));
                     }
-
                 }
             }
+        });
+
+        check.setOnClickListener(view -> {
+            Uri uri = Uri.parse("http://tiny.cc/covid-19india");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         });
         pawan.setOnClickListener(new View.OnClickListener() {
             @Override

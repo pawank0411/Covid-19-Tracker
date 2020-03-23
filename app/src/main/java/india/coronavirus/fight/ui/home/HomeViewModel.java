@@ -34,8 +34,10 @@ public class HomeViewModel extends AndroidViewModel {
 
     public HomeViewModel(Application application) {
         super(application);
-        preferences = getApplication().getSharedPreferences("NEWDATA", MODE_PRIVATE);
+        preferences = getApplication().getSharedPreferences("NEW", MODE_PRIVATE);
     }
+
+    private SharedPreferences sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
 
     LiveData<List<HeaderData>> getData() {
         if (dataMutableLiveData == null) {
@@ -45,33 +47,52 @@ public class HomeViewModel extends AndroidViewModel {
         return dataMutableLiveData;
     }
 
-    private void refreshData() {
+    public void refreshData() {
         //predict and state => POST
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
-        StringRequest stringReques = new StringRequest(Request.Method.GET, "http://6ccad673.ngrok.io/api/new", response -> {
+        StringRequest stringReques = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/new", response -> {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 new_cases = jsonObject.getInt("cases");
                 new_cured = jsonObject.getInt("cured");
                 new_death = jsonObject.getInt("death");
-                editor = preferences.edit();
                 oldhospitalized = new_cases - (new_cured + new_death);
-                if (oldhospitalized != 0) {
-                    editor.putInt("new_hospitalized", oldhospitalized);
-                    editor.apply();
-                }
-                if (new_cases != 0) {
-                    editor.putInt("new_case", new_cases);
-                    editor.apply();
-                }
-                if (new_cured != 0) {
-                    editor.putInt("new_cured", new_cured);
-                    editor.apply();
-                }
-                if (new_death != 0) {
-                    editor.putInt("new_death", new_death);
-                    editor.apply();
-                }
+//                editor = preferences.edit();
+
+//                editor.putInt("new_case", new_cases);
+//                editor.putInt("new_cured", new_cured);
+//                editor.putInt("new_death", new_death);
+//                editor.putInt("new_hospitalized", oldhospitalized);
+//                editor.apply();
+
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/total", response1 -> {
+                    try {
+                        JSONObject json = new JSONObject(response1);
+                        Log.d("response", String.valueOf(json));
+                        String filtered = "{\"stats\": [{\"stat1\":\"" + json.getInt("cases") +
+                                "\"," + "\"oldcount\":\"" + new_cases + "\",\"heading\":\"Total CASES\",\"subheading\":Total}," +
+                                "{\"stat1\":\"" + json.getInt("cured") +
+                                "\"," + "\"oldcount\":\"" + new_cured + "\",\"heading\":\"Recovered CASES\",\"subheading\":Recovered}," +
+                                "{\"stat1\":\"" + json.getInt("death") +
+                                "\"," + "\"oldcount\":\"" + new_death + "\",\"heading\":\"Death CASES\",\"subheading\":Deaths}," +
+                                "{\"stat1\":\"" + json.getInt("hospitalized") +
+                                "\"," + "\"oldcount\":\"" + oldhospitalized + "\",\"heading\":\"Hospitalized CASES\",\"subheading\":Hospitalized}]}";
+
+                        JSONObject jsonObject2 = new JSONObject(filtered);
+                        JSONArray jsonArray = jsonObject2.getJSONArray("stats");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            headerData.add(new HeaderData(jsonObject1.getString("stat1"), jsonObject1.getString("heading"), jsonObject1.getString("subheading"), jsonObject1.getString("oldcount")));
+                            dataMutableLiveData.setValue(headerData);
+                        }
+                    } catch (JSONException e) {
+                        Log.e("Error", String.valueOf(e));
+                    }
+                }, error -> {
+                    Log.d("Error", Objects.requireNonNull(error.toString()));
+                });
+                //adding the string request to request queue
+                requestQueue.add(stringRequest);
 
             } catch (JSONException e) {
                 Log.d("Error", e.getMessage());
@@ -80,34 +101,6 @@ public class HomeViewModel extends AndroidViewModel {
         });
         requestQueue.add(stringReques);
         //Need to be continued -> sharedPrefernces
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://6ccad673.ngrok.io") + "/api/total", response -> {
-            try {
-                JSONObject json = new JSONObject(response);
-                Log.d("response", String.valueOf(json));
-                String filtered = "{\"stats\": [{\"stat1\":\"" + json.getInt("cases") +
-                        "\"," + "\"oldcount\":\"" + preferences.getInt("new_case", 0) + "\",\"heading\":\"Total CASES\",\"subheading\":Total}," +
-                        "{\"stat1\":\"" + json.getInt("cured") +
-                        "\"," + "\"oldcount\":\"" + preferences.getInt("new_cured", 0) + "\",\"heading\":\"Recovered CASES\",\"subheading\":Recovered}," +
-                        "{\"stat1\":\"" + json.getInt("death") +
-                        "\"," + "\"oldcount\":\"" + preferences.getInt("new_death", 0) + "\",\"heading\":\"Death CASES\",\"subheading\":Deaths}," +
-                        "{\"stat1\":\"" + json.getInt("hospitalized") +
-                        "\"," + "\"oldcount\":\"" + preferences.getInt("new_hospitalized", 0) + "\",\"heading\":\"Hospitalized CASES\",\"subheading\":Hospitalized}]}";
 
-                JSONObject jsonObject = new JSONObject(filtered);
-                JSONArray jsonArray = jsonObject.getJSONArray("stats");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                    headerData.add(new HeaderData(jsonObject1.getString("stat1"), jsonObject1.getString("heading"), jsonObject1.getString("subheading"), jsonObject1.getString("oldcount")));
-                    dataMutableLiveData.setValue(headerData);
-                }
-            } catch (JSONException e) {
-                Log.e("Error", String.valueOf(e));
-            }
-        }, error -> {
-            Log.d("Error", Objects.requireNonNull(error.toString()));
-        });
-        //adding the string request to request queue
-        requestQueue.add(stringRequest);
     }
 }

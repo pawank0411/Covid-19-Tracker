@@ -1,6 +1,7 @@
 package india.coronavirus.fight.ui.guides;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -21,6 +22,8 @@ import java.util.Objects;
 
 import india.coronavirus.fight.model.GuideData;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class GuideViewModel extends AndroidViewModel {
     private MutableLiveData<ArrayList<GuideData>> dataMutableLiveData;
     private ArrayList<GuideData> headerData = new ArrayList<>();
@@ -37,9 +40,11 @@ public class GuideViewModel extends AndroidViewModel {
         return dataMutableLiveData;
     }
 
+    private SharedPreferences sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
+
     private void refreshData() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://6ccad673.ngrok.io/api/guides", response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "") + "/api/guides", response -> {
             try {
                 Log.d("json", String.valueOf(response));
                 JSONObject json = new JSONObject(response);

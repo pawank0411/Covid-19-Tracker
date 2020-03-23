@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -29,6 +30,8 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,12 +47,15 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(dataAdapter);
         homeViewModel.getData().observe(Objects.requireNonNull(getActivity()), data1 -> {
             if (data1 != null) {
+                progressBar.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
                 headerDatalist.clear();
                 headerDatalist.addAll(data1);
                 dataAdapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
             }
         });
+
+        swipeRefreshLayout.setOnRefreshListener(() -> homeViewModel.refreshData());
         return root;
     }
 

@@ -45,7 +45,7 @@ public class StateViewModel extends AndroidViewModel {
     private void refreshData() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://6ccad673.ngrok.io") + "/api/all", response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/all", response -> {
             try {
                 JSONObject json = new JSONObject(response);
                 JSONArray jsonA = json.getJSONArray("all");

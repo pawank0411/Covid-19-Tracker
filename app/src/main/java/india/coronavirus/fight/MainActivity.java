@@ -47,6 +47,15 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = this.getSharedPreferences("API", MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+        if (sharedPreferences.getBoolean("is_First_Run", true)) {
+            MyApplication.getInstance().clearApplicationData();
+            SharedPreferences pref_new = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+            SharedPreferences.Editor editor_new = pref_new.edit();
+            editor_new.putBoolean("is_First_Run", false);
+            editor_new.apply();
+        }
+
         CollectionReference apiCollection = FirebaseFirestore.getInstance().collection("apilink");
         apiCollection.addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (queryDocumentSnapshots != null) {
