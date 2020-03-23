@@ -56,14 +56,11 @@ public class HomeViewModel extends AndroidViewModel {
                 new_cases = jsonObject.getInt("cases");
                 new_cured = jsonObject.getInt("cured");
                 new_death = jsonObject.getInt("death");
-                oldhospitalized = new_cases - (new_cured + new_death);
-//                editor = preferences.edit();
-
-//                editor.putInt("new_case", new_cases);
-//                editor.putInt("new_cured", new_cured);
-//                editor.putInt("new_death", new_death);
-//                editor.putInt("new_hospitalized", oldhospitalized);
-//                editor.apply();
+                if (new_cases >= new_cured + new_death) {
+                    oldhospitalized = new_cases - (new_cured + new_death);
+                } else {
+                    oldhospitalized = (new_cured + new_death) - new_cases;
+                }
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/total", response1 -> {
                     try {

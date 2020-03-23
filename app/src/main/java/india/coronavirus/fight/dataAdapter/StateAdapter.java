@@ -2,9 +2,11 @@ package india.coronavirus.fight.dataAdapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.json.JSONException;
@@ -32,6 +35,7 @@ import india.coronavirus.fight.R;
 import india.coronavirus.fight.model.StateData;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 public class StateAdapter extends RecyclerView.Adapter<StateAdapter.ViewHolder> {
     private ArrayList<ArrayList<StateData>> stateDataList;
@@ -67,19 +71,24 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.ViewHolder> 
         } else {
             holder.case_predict.setText(R.string.prediction);
         }
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("API", MODE_PRIVATE);
 
-        holder.case_predict.setOnClickListener(view -> {
+        holder.cardView.setOnClickListener(view -> {
+            holder.case_predict.setVisibility(View.GONE);
+            holder.progressBar.setVisibility(View.VISIBLE);
             RequestQueue queue = Volley.newRequestQueue(mContext);
             Map<String, String> postParam = new HashMap<String, String>();
             postParam.put("state", stateDataList.get(position).get(position).getStatename());
 
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    "http://6ccad673.ngrok.io/api/predict", new JSONObject(postParam),
+                    sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/predict", new JSONObject(postParam),
                     response -> {
                         try {
                             JSONObject json = new JSONObject(String.valueOf(response));
                             double currProb = json.getDouble("probability");
                             predictedVal[position] = currProb;
+                            holder.case_predict.setVisibility(View.VISIBLE);
+                            holder.progressBar.setVisibility(View.GONE);
                             holder.case_predict.setText(df2.format(currProb) + " %");
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -122,6 +131,10 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.ViewHolder> 
         MaterialTextView subheading3;
         @BindView(R.id.predicted)
         MaterialTextView case_predict;
+        @BindView(R.id.progress_bar)
+        ProgressBar progressBar;
+        @BindView(R.id.newCard)
+        MaterialCardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -3,6 +3,8 @@ package india.coronavirus.fight;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
@@ -10,7 +12,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -29,65 +30,56 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private String api;
-    private SharedPreferences sharedPreferences;
+    private String version;
     private SharedPreferences.Editor editor;
+    private String new_version;
+    private String newVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         MaterialTextView textView = findViewById(R.id.marquee);
-        ConstraintLayout constraintLayout = findViewById(R.id.container);
         textView.setSelected(true);
         OneSignal.startInit(this)
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .init();
 
-        sharedPreferences = this.getSharedPreferences("API", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("API", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
-        if (sharedPreferences.getBoolean("is_First_Run", true)) {
-            MyApplication.getInstance().clearApplicationData();
-            SharedPreferences pref_new = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-            SharedPreferences.Editor editor_new = pref_new.edit();
-            editor_new.putBoolean("is_First_Run", false);
-            editor_new.apply();
-        }
 
         CollectionReference apiCollection = FirebaseFirestore.getInstance().collection("apilink");
         apiCollection.addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (queryDocumentSnapshots != null) {
                 for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                     api = documentChange.getDocument().getString("api");
+                    new_version = documentChange.getDocument().getString("version");
+                    editor.putString("new_version", version);
                     editor.putString("API", api);
                     editor.apply();
                 }
             }
+            try {
+                PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+                newVersion = pInfo.versionName;
+            } catch (PackageManager.NameNotFoundException e1) {
+                e1.printStackTrace();
+            }
+            if (new_version.equals(newVersion)) {
+                AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                        R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                        .build();
+                navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+                NavigationUI.setupWithNavController(navView, navController);
+            } else {
+                Intent intent = new Intent(this, About.class);
+                intent.putExtra("fromMainActivity", true);
+                startActivity(intent);
+            }
         });
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            startForegroundService(new Intent(this, APIService.class));
-//        } else {
-//            startService(new Intent(this, APIService.class));
-//        }
-//
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(navView, navController);
-//        PowerManager pm = (PowerManager) this.getSystemService(POWER_SERVICE);
-//        String packageName = this.getPackageName();
-//        if (pm != null && !pm.isIgnoringBatteryOptimizations(packageName)) {
-//            Snackbar.make(constraintLayout, "Allow app to run in background to get Notifications", Snackbar.LENGTH_INDEFINITE).setActionTextColor(Color.RED).setAction("Allow", new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    openPowerSettings(MainActivity.this);
-//                }
-//            }).show();
-//        }
     }
 
     @Override

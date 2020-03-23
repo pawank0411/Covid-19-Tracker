@@ -11,7 +11,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView"
+            android:id="@+id/maintitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -37,25 +37,11 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/maintitle" />
+
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/desp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="(After downloading the new version please uninstall the old version, to get the benefit of the app.)"
-            android:textAlignment="center"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/update_available"/>
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView2"
+            android:id="@+id/desptitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -64,7 +50,7 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/desp" />
+            app:layout_constraintTop_toBottomOf="@+id/update_available" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/pawan"
@@ -77,7 +63,7 @@
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
+            app:layout_constraintTop_toBottomOf="@+id/desptitle" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/speedx"
@@ -89,6 +75,6 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/pawan"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
+            app:layout_constraintTop_toBottomOf="@+id/desptitle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

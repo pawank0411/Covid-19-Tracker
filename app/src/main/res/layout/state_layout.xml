@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:id="@+id/newCard"
     android:background="@color/colorPrimary"
     app:cardCornerRadius="10dp"
     app:cardElevation="8dp">
@@ -47,6 +48,19 @@
                 android:layout_below="@+id/heading"
                 android:textColor="@android:color/holo_red_light"
                 android:text="@string/prediction" />
+
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/transparent"
+                android:indeterminateTint="@color/colorPrimary"
+                android:layout_alignParentEnd="true"
+                android:visibility="gone"
+                android:layout_below="@+id/heading"
+                android:layout_marginEnd="20dp" />
+
 
         </RelativeLayout>
         <com.google.android.material.textview.MaterialTextView

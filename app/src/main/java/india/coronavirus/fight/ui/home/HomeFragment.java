@@ -30,8 +30,8 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    @BindView(R.id.swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
+//    @BindView(R.id.swipe_refresh)
+//    SwipeRefreshLayout swipeRefreshLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,14 +48,14 @@ public class HomeFragment extends Fragment {
         homeViewModel.getData().observe(Objects.requireNonNull(getActivity()), data1 -> {
             if (data1 != null) {
                 progressBar.setVisibility(View.GONE);
-                swipeRefreshLayout.setRefreshing(false);
+//                swipeRefreshLayout.setRefreshing(false);
                 headerDatalist.clear();
                 headerDatalist.addAll(data1);
                 dataAdapter.notifyDataSetChanged();
             }
         });
 
-        swipeRefreshLayout.setOnRefreshListener(() -> homeViewModel.refreshData());
+//        swipeRefreshLayout.setOnRefreshListener(() -> homeViewModel.refreshData());
         return root;
     }
 
