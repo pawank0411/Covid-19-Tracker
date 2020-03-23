@@ -62,12 +62,16 @@ public class MainActivity extends AppCompatActivity {
                     editor.apply();
                 }
             }
+            PackageInfo pInfo = null;
             try {
-                PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
-                newVersion = pInfo.versionName;
-            } catch (PackageManager.NameNotFoundException e1) {
-                e1.printStackTrace();
+                pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            } catch (PackageManager.NameNotFoundException ex) {
+                ex.printStackTrace();
             }
+            if (pInfo != null) {
+                newVersion = pInfo.versionName;
+            }
+
             if (new_version.equals(newVersion)) {
                 AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                         R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
