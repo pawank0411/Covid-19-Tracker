@@ -13,8 +13,7 @@ import com.google.android.material.textview.MaterialTextView;
 import java.util.Objects;
 
 public class About extends AppCompatActivity {
-    private boolean update;
-
+private  boolean update;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,19 +24,22 @@ public class About extends AppCompatActivity {
         MaterialTextView desptitle = findViewById(R.id.desptitle);
         MaterialTextView maintitle = findViewById(R.id.maintitle);
 
-        update = Objects.requireNonNull(getIntent().getExtras()).getBoolean("fromMainActivity");
-        if (update) {
-            pawan.setVisibility(View.INVISIBLE);
-            sppedx.setVisibility(View.INVISIBLE);
-            desptitle.setVisibility(View.INVISIBLE);
-            maintitle.setVisibility(View.INVISIBLE);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            update = Objects.requireNonNull(getIntent().getExtras()).getBoolean("fromMainActivity");
+            if (update) {
+                pawan.setVisibility(View.INVISIBLE);
+                sppedx.setVisibility(View.INVISIBLE);
+                desptitle.setVisibility(View.INVISIBLE);
+                maintitle.setVisibility(View.INVISIBLE);
 
-            check.setVisibility(View.VISIBLE);
-            check.setOnClickListener(view -> {
-                Uri uri = Uri.parse("http://tiny.cc/covid-19india");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            });
+                check.setVisibility(View.VISIBLE);
+                check.setOnClickListener(view -> {
+                    Uri uri = Uri.parse("http://tiny.cc/covid-19india");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                });
+            }
         }
         pawan.setOnClickListener(view -> {
             Uri uri = Uri.parse("https://pawan0411.github.io/");
@@ -54,6 +56,10 @@ public class About extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true);
+        if (update) {
+            moveTaskToBack(true);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
