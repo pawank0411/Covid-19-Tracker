@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                     api = documentChange.getDocument().getString("api");
                     new_version = documentChange.getDocument().getString("version");
-                    boolean showgraph = documentChange.getDocument().getBoolean("showgraph");
-                    editor.putBoolean("showgraph", showgraph);
+                    String showgraph = documentChange.getDocument().getString("showGraph");
+                    editor.putString("showgraph", showgraph);
                     editor.putString("new_version", version);
                     editor.putString("API", api);
                     editor.apply();

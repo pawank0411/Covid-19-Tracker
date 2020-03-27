@@ -29,7 +29,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class DataAdapterMain extends RecyclerView.Adapter<DataAdapterMain.ViewHolder> {
     private List<HeaderData> headerDataList;
     private Context mContext;
-    private SharedPreferences sharedPreferences ;
+    private SharedPreferences sharedPreferences;
 
     public DataAdapterMain(ArrayList<HeaderData> headerDatalist, Context context) {
         this.headerDataList = headerDatalist;
@@ -47,7 +47,7 @@ public class DataAdapterMain extends RecyclerView.Adapter<DataAdapterMain.ViewHo
     @Override
     public void onBindViewHolder(@NonNull DataAdapterMain.ViewHolder holder, int position) {
         sharedPreferences = mContext.getSharedPreferences("API", MODE_PRIVATE);
-        if (!sharedPreferences.getBoolean("showgraph",true)) {
+        if (!sharedPreferences.getString("showgraph", "1").equals("1")) {
             holder.grahView.setVisibility(View.GONE);
         }
         HeaderData headerData = headerDataList.get(position);
