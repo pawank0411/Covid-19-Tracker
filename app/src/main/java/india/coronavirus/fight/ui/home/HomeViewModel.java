@@ -67,19 +67,20 @@ public class HomeViewModel extends AndroidViewModel {
                         JSONObject json = new JSONObject(response1);
                         Log.d("response", String.valueOf(json));
                         String filtered = "{\"stats\": [{\"stat1\":\"" + json.getInt("cases") +
-                                "\"," + "\"oldcount\":\"" + new_cases + "\",\"heading\":\"Total CASES\",\"subheading\":Total}," +
-                                "{\"stat1\":\"" + json.getInt("cured") +
-                                "\"," + "\"oldcount\":\"" + new_cured + "\",\"heading\":\"Recovered CASES\",\"subheading\":Recovered}," +
-                                "{\"stat1\":\"" + json.getInt("death") +
-                                "\"," + "\"oldcount\":\"" + new_death + "\",\"heading\":\"Death CASES\",\"subheading\":Deaths}," +
+                                "\"," + "\"oldcount\":\"" + new_cases + "\",\"heading\":\"CONFIRMED\",\"subheading\":Total,\"color\":red}," +
                                 "{\"stat1\":\"" + json.getInt("hospitalized") +
-                                "\"," + "\"oldcount\":\"" + oldhospitalized + "\",\"heading\":\"Hospitalized CASES\",\"subheading\":Hospitalized}]}";
+                                "\"," + "\"oldcount\":\"" + oldhospitalized + "\",\"heading\":\"ACTIVE\",\"subheading\":Active,\"color\":blue}," +
+                                "{\"stat1\":\"" + json.getInt("cured") +
+                                "\"," + "\"oldcount\":\"" + new_cured + "\",\"heading\":\"RECOVERED\",\"subheading\":Recovered,\"color\":green}," +
+                                "{\"stat1\":\"" + json.getInt("death") +
+                                "\"," + "\"oldcount\":\"" + new_death + "\",\"heading\":\"DEATH\",\"subheading\":Deaths,\"color\":gray}]}";
 
                         JSONObject jsonObject2 = new JSONObject(filtered);
                         JSONArray jsonArray = jsonObject2.getJSONArray("stats");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                            headerData.add(new HeaderData(jsonObject1.getString("stat1"), jsonObject1.getString("heading"), jsonObject1.getString("subheading"), jsonObject1.getString("oldcount")));
+                            headerData.add(new HeaderData(jsonObject1.getString("stat1"), jsonObject1.getString("heading"), jsonObject1.getString("subheading"), jsonObject1.getString("oldcount"),
+                                    jsonObject1.getString("color")));
                             dataMutableLiveData.setValue(headerData);
                         }
                     } catch (JSONException e) {

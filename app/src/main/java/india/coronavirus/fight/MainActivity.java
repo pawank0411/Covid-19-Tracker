@@ -25,6 +25,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.onesignal.OneSignal;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private String new_version;
     private String newVersion;
+    private Thread thread;
+    private ArrayList<String> quoteList = new ArrayList<>();
+    private Integer i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
+        MaterialTextView quotetext = findViewById(R.id.quoteText);
         MaterialTextView textView = findViewById(R.id.marquee);
         textView.setSelected(true);
         OneSignal.startInit(this)
@@ -51,12 +56,15 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("API", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
+
         CollectionReference apiCollection = FirebaseFirestore.getInstance().collection("apilink");
         apiCollection.addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (queryDocumentSnapshots != null) {
                 for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                     api = documentChange.getDocument().getString("api");
                     new_version = documentChange.getDocument().getString("version");
+                    boolean showgraph = documentChange.getDocument().getBoolean("showgraph");
+                    editor.putBoolean("showgraph", showgraph);
                     editor.putString("new_version", version);
                     editor.putString("API", api);
                     editor.apply();
@@ -84,6 +92,40 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        quoteList.add("Don't Hoard groceries and essentials. Please ensure that people who are in need don't face a shortage because of you!");
+        quoteList.add("Plan ahead! Take a minute and check how much you have at home. Planning ahead let's you buy exactly what you need!");
+        quoteList.add("If you have symptoms and suspect you have coronavirus - reach out to your doctor or call state helplines. \uD83D\uDCDE Get help.");
+        quoteList.add("Panic mode : OFF! ❌ ESSENTIALS ARE ON! ✔️");
+        quoteList.add("Help out the elderly by bringing them their groceries and other essentials.");
+        quoteList.add("Be considerate : While buying essentials remember : You need to share with 130 Crore Others!  ");
+        quoteList.add("Stand Against FAKE News and WhatsApp Forwards! Do NOT ❌ forward a message until you verify the content it contains.");
+        quoteList.add("Be compassionate! Help those in need like the elderly and poor. They are facing a crisis you cannot even imagine!  ");
+
+        thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!thread.isInterrupted()) {
+                        Thread.sleep(5000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (i < quoteList.size()) {
+                                    quotetext.setText(quoteList.get(i));
+                                    i++;
+                                } else {
+                                    i = 0;
+                                }
+                            }
+                        });
+                    }
+                } catch (InterruptedException ignored) {
+                }
+            }
+        };
+        thread.start();
+
+
     }
 
     @Override

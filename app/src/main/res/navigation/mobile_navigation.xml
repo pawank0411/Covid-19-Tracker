@@ -22,7 +22,6 @@
         android:name="india.coronavirus.fight.ui.statewise.StateFragment"
         android:label="@string/title_statewise"
         tools:layout="@layout/fragment_statewise" />
-
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="india.coronavirus.fight.ui.helpline.HelplineFragment"

@@ -54,7 +54,7 @@ public class StateViewModel extends AndroidViewModel {
                     String statename = toTitleCase(js.getString("state"));
                     stateDataArrayList.add(new StateData(statename, js.getString("cases"),
                             js.getString("cured"), js.getString("death"), "Cases",
-                            "Cured", "Deaths"));
+                            "Recovered", "Deaths"));
                     dataMutableLiveData.setValue(stateDataArrayList);
                 }
             } catch (JSONException e) {

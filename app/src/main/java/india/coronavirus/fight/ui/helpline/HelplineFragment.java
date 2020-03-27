@@ -25,7 +25,7 @@ public class HelplineFragment extends Fragment {
 
     private HelplineViewModel notificationsViewModel;
     private ArrayList<ArrayList<StateData>> headerDatalist = new ArrayList<>();
-    ;
+
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.progress_bar)

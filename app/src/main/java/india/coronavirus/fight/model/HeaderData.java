@@ -5,13 +5,22 @@ public class HeaderData {
     private String header;
     private String subheader;
     private String newcase;
+    private String color;
 
-    public HeaderData(String cases, String header, String subheader, String new_case) {
+    public HeaderData(String cases, String header, String subheader, String new_case, String color) {
         this.cases = cases;
         this.header = header;
         this.subheader = subheader;
         this.newcase = new_case;
+        this.color = color;
+    }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public String getNewcase() {
