@@ -18,11 +18,13 @@ private  boolean update;
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
-        MaterialTextView check = findViewById(R.id.update_available);
+        MaterialTextView check = findViewById(R.id.update_available1);
+        MaterialTextView check2 = findViewById(R.id.update_available2);
         MaterialTextView pawan = findViewById(R.id.pawan);
         MaterialTextView sppedx = findViewById(R.id.speedx);
         MaterialTextView desptitle = findViewById(R.id.desptitle);
         MaterialTextView maintitle = findViewById(R.id.maintitle);
+        MaterialTextView or = findViewById(R.id.or);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -34,10 +36,21 @@ private  boolean update;
                 maintitle.setVisibility(View.INVISIBLE);
 
                 check.setVisibility(View.VISIBLE);
+                or.setVisibility(View.VISIBLE);
+                check2.setVisibility(View.VISIBLE);
                 check.setOnClickListener(view -> {
                     Uri uri = Uri.parse("http://tiny.cc/covid-19india");
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
+                });
+
+                check2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Uri uri = Uri.parse("https://github.com/Pawan0411/Covid-19/releases");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
                 });
             }
         }

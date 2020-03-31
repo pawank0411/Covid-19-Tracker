@@ -76,12 +76,15 @@ dependencies {
     implementation 'com.onesignal:OneSignal:3.12.4'
 
     //firebase
-    implementation 'com.google.firebase:firebase-analytics:17.2.3'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta02'
-    implementation 'com.google.firebase:firebase-firestore:21.4.1'
+    implementation 'com.google.firebase:firebase-analytics:17.3.0'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta03'
+    implementation 'com.google.firebase:firebase-firestore:21.4.2'
 
     //Multi-dex
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    //PDF
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

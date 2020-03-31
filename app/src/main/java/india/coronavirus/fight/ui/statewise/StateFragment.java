@@ -2,11 +2,13 @@ package india.coronavirus.fight.ui.statewise;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +16,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textview.MaterialTextView;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -23,6 +28,8 @@ import india.coronavirus.fight.HeatMap;
 import india.coronavirus.fight.R;
 import india.coronavirus.fight.dataAdapter.StateAdapter;
 import india.coronavirus.fight.model.StateData;
+import india.coronavirus.fight.utilities.AppStatus;
+import india.coronavirus.fight.utilities.LoadPDF;
 
 public class StateFragment extends Fragment {
     private ArrayList<StateData> stateDatalist = new ArrayList<>();
@@ -33,6 +40,10 @@ public class StateFragment extends Fragment {
     ProgressBar progressBar;
     @BindView(R.id.quote_layout)
     LinearLayout linearLayout;
+    @BindView(R.id.announcementLayout)
+    LinearLayout announcementLayout;
+    @BindView(R.id.districtWise)
+    MaterialTextView disytrictwise;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -55,7 +66,12 @@ public class StateFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
+//        blink();
+        AppStatus appStatus = new AppStatus(getContext());
 
+        if (!appStatus.haveNetworkConnection()) {
+            linearLayout.setVisibility(View.GONE);
+        }
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +79,44 @@ public class StateFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        File file = new File("/storage/emulated/0/covid19 India/districtData.pdf");
+        if (file.exists()) {
+            announcementLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), LoadPDF.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            Toast.makeText(getContext(), "Download error", Toast.LENGTH_SHORT).show();
+        }
         return root;
     }
 
+    private void blink() {
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int timeToBlink = 1000;    //in milissegunds
+                try {
+                    Thread.sleep(timeToBlink);
+                } catch (Exception e) {
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (disytrictwise.getVisibility() == View.VISIBLE) {
+                            disytrictwise.setVisibility(View.INVISIBLE);
+                        } else {
+                            disytrictwise.setVisibility(View.VISIBLE);
+                        }
+                        blink();
+                    }
+                });
+            }
+        }).start();
+    }
 }

@@ -3,6 +3,7 @@ package india.coronavirus.fight;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -26,7 +27,16 @@ public class HeatMap extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setPluginState(WebSettings.PluginState.ON);
         webView.setWebViewClient(new webViewClient());
-        webView.loadUrl(sharedPreferences.getString("API","http://ac41bf31.ngrok.io"));
+        webView.loadUrl(sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/india");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+        }
+        return true;
     }
 
     public class webViewClient extends WebViewClient {
@@ -52,4 +62,5 @@ public class HeatMap extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
         }
     }
+
 }

@@ -46,8 +46,10 @@ public class HomeViewModel extends AndroidViewModel {
     LiveData<List<HeaderData>> getData() {
         if (dataMutableLiveData == null) {
             dataMutableLiveData = new MutableLiveData<>();
+            loadData();
             refreshData();
         }
+
         return dataMutableLiveData;
     }
 
@@ -55,6 +57,23 @@ public class HomeViewModel extends AndroidViewModel {
         //predict and state => POST
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
         editor = sharedPreferences.edit();
+        StringRequest re = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/extras", response2 -> {
+            try {
+                JSONObject jsonObject2 = new JSONObject(response2);
+                info = jsonObject2.getString("info");
+                column = jsonObject2.getString("column");
+                dist_link = jsonObject2.getString("dist_link");
+                editor.putString("DIST", dist_link);
+                editor.apply();
+            } catch (JSONException e) {
+
+            }
+        }, error -> {
+//
+            Log.d("Error1", Objects.requireNonNull(error.toString()));
+        });
+        requestQueue.add(re);
+
         StringRequest stringReques = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/new", response -> {
             try {
                 JSONObject jsonObject = new JSONObject(response);
@@ -66,23 +85,6 @@ public class HomeViewModel extends AndroidViewModel {
                 } else {
                     oldhospitalized = (new_cured + new_death) - new_cases;
                 }
-
-                StringRequest re = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/extras", response2 -> {
-                    try {
-                        JSONObject jsonObject2 = new JSONObject(response2);
-                        info = jsonObject2.getString("info");
-                        column = jsonObject2.getString("column");
-                        dist_link = jsonObject2.getString("dist_link");
-
-                        editor.putString("DIST", dist_link);
-                        editor.apply();
-                    } catch (JSONException e) {
-
-                    }
-                }, error -> {
-                    Log.d("Error", Objects.requireNonNull(error.toString()));
-                });
-                requestQueue.add(re);
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/total", response1 -> {
                     try {
                         JSONObject json = new JSONObject(response1);
@@ -106,7 +108,7 @@ public class HomeViewModel extends AndroidViewModel {
                         }
                         saveData(headerData);
                     } catch (JSONException e) {
-                        Log.e("Error", String.valueOf(e));
+                        Log.e("Error2", String.valueOf(e));
                     }
                 }, error -> {
                     Log.d("Error", Objects.requireNonNull(error.toString()));
@@ -115,10 +117,11 @@ public class HomeViewModel extends AndroidViewModel {
                 requestQueue.add(stringRequest);
 
             } catch (JSONException e) {
-                Log.d("Error", e.getMessage());
+                Log.d("Error3", e.getMessage());
             }
         }, error -> {
-            loadData();
+//
+            Log.d("Error4", Objects.requireNonNull(error.toString()));
         });
         requestQueue.add(stringReques);
         //Need to be continued -> sharedPrefernces

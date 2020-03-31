@@ -42,6 +42,7 @@ public class NewsViewModel extends AndroidViewModel {
     LiveData<List<NewData>> getData() {
         if (dataMutableLiveData == null) {
             dataMutableLiveData = new MutableLiveData<>();
+            loadData();
             refreshData();
         }
         return dataMutableLiveData;
@@ -65,7 +66,6 @@ public class NewsViewModel extends AndroidViewModel {
                 Log.e("Error", String.valueOf(e));
             }
         }, error -> {
-            loadData();
             Log.d("Error", Objects.requireNonNull(error.toString()));
         });
         requestQueue.add(stringRequest);

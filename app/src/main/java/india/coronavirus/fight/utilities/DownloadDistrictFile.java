@@ -96,9 +96,9 @@ public class DownloadDistrictFile {
         protected void onPostExecute(String result) {
             if (result != null) {
                 Log.d("DownloadError", result);
-                Toast.makeText(context, "Download error: " + result, Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "Download error: " + result, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show();
             }
             MediaScannerConnection.scanFile(context,
                     new String[]{Environment.getExternalStorageDirectory().getAbsolutePath() +

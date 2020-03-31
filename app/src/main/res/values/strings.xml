@@ -10,10 +10,12 @@
     <string name="about">About</string>
     <string name="pawan0411"><u>Pawan0411</u></string>
     <string name="speedx"><u>SpeedX</u></string>
-    <string name="update"><u>Update Available :http://tiny.cc/covid-19india</u></string>
+    <string name="update">Update Available:<u>\nhttp://tiny.cc/covid-19india</u></string>
+    <string name="update2"><u>https://github.com/Pawan0411/Covid-19/releases</u></string>
     <string name="this_app_is_about_updates_related_to_coronavirus_in_india">This app is about updates related to coronavirus in India. \n
                     All data are fetched from Ministry of Health and Family Welfare website.</string>
     <string name="recoverd">Recovered</string>
     <string name="title_heatmap">Heat Map</string>
     <string name="try_out_new_heat_map"><u>Try out new Heat Map!</u></string>
+    <string name="click_here_to_know_district_wise_stats"><u>Click here to know District wise stats</u></string>
 </resources>

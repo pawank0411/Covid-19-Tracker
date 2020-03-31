@@ -2,7 +2,6 @@ package india.coronavirus.fight;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -26,12 +25,19 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.onesignal.OneSignal;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private String new_version;
     private String newVersion;
     private Thread thread;
+    private String lastUp;
     private ArrayList<String> quoteList = new ArrayList<>();
     private Integer i = 0;
     private static final int EXTERNAL_STORAGE_PERMISSION_CODE = 1002;
@@ -59,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         MaterialTextView quotetext = findViewById(R.id.quoteText);
         MaterialTextView textView = findViewById(R.id.marquee);
+        MaterialTextView lastup = findViewById(R.id.lastupdated);
         textView.setSelected(true);
         OneSignal.startInit(this)
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
@@ -70,7 +78,29 @@ public class MainActivity extends AppCompatActivity {
 
         askPermission();
         DownloadDistrictFile downloadDistrictFile = new DownloadDistrictFile(this);
-        downloadDistrictFile.newDownload("https://www.mohfw.gov.in/pdf/DistrictWiseList324.pdf");
+        downloadDistrictFile.newDownload(sharedPreferences.getString("DIST", ""));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/extras", response -> {
+            try {
+                JSONObject json = new JSONObject(response);
+                lastUp = json.getString("timestamp");
+                editor.putString("time", lastUp);
+                editor.apply();
+                if (sharedPreferences.getString("time", "null") != null) {
+                    lastup.setText("Last updated " + sharedPreferences.getString("time", "null").substring(3));
+                }
+            } catch (JSONException e) {
+                if (sharedPreferences.getString("time", "null") != null) {
+                    lastup.setText("Last updated " + sharedPreferences.getString("time", "null").substring(3));
+                }
+                Log.e("Error", String.valueOf(e));
+            }
+        }, error -> {
+            Log.d("Error", Objects.requireNonNull(error.toString()));
+        });
+        requestQueue.add(stringRequest);
+
         CollectionReference apiCollection = FirebaseFirestore.getInstance().collection("apilink");
         apiCollection.addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (queryDocumentSnapshots != null) {
@@ -94,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
                 newVersion = pInfo.versionName;
                 if (new_version.equals(newVersion)) {
                     AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                            R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                            R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_guides,
+                            R.id.navigation_statewise)
                             .build();
                     navController = Navigation.findNavController(this, R.id.nav_host_fragment);
                     NavigationUI.setupWithNavController(navView, navController);
@@ -104,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-
         });
         quoteList.add("Lockdown means LOCKDOWN! Avoid going out unless absolutely necessary. Stay safe!  ");
         quoteList.add("Don't Hoard groceries and essentials. Please ensure that people who are in need don't face a shortage because of you!");
@@ -237,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (isDirectoryCreated) {
             // do something\
+            Log.d("Path", path);
             Log.d("Folder", "Already Created");
         }
     }
@@ -264,9 +295,4 @@ public class MainActivity extends AppCompatActivity {
         return navController.navigateUp();
     }
 
-    private void openPowerSettings(Context context) {
-        Intent intent = new Intent();
-        intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-        context.startActivity(intent);
-    }
 }

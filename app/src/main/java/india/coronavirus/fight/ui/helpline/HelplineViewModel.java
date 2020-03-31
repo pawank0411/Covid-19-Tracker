@@ -40,6 +40,7 @@ public class HelplineViewModel extends AndroidViewModel {
     LiveData<List<StateData>> getData() {
         if (dataMutableLiveData == null) {
             dataMutableLiveData = new MutableLiveData<>();
+            loadData();
             refreshData();
         }
         return dataMutableLiveData;
@@ -72,7 +73,7 @@ public class HelplineViewModel extends AndroidViewModel {
                 Log.e("Error", String.valueOf(e));
             }
         }, error -> {
-            loadData();
+//
             Log.d("Error", Objects.requireNonNull(error.toString()));
         });
         //adding the string request to request queue
