@@ -12,11 +12,14 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,15 +32,16 @@ public class HomeViewModel extends AndroidViewModel {
     private MutableLiveData<List<HeaderData>> dataMutableLiveData;
     private ArrayList<HeaderData> headerData = new ArrayList<>();
     private int new_cases, new_cured, new_death, oldhospitalized;
-    private SharedPreferences preferences;
+    private String info,  dist_link;
+    private String column;
+    private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
     public HomeViewModel(Application application) {
         super(application);
-        preferences = getApplication().getSharedPreferences("NEW", MODE_PRIVATE);
-    }
+        sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
 
-    private SharedPreferences sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
+    }
 
     LiveData<List<HeaderData>> getData() {
         if (dataMutableLiveData == null) {
@@ -50,6 +54,7 @@ public class HomeViewModel extends AndroidViewModel {
     public void refreshData() {
         //predict and state => POST
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
+        editor = sharedPreferences.edit();
         StringRequest stringReques = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/new", response -> {
             try {
                 JSONObject jsonObject = new JSONObject(response);
@@ -62,6 +67,22 @@ public class HomeViewModel extends AndroidViewModel {
                     oldhospitalized = (new_cured + new_death) - new_cases;
                 }
 
+                StringRequest re = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/extras", response2 -> {
+                    try {
+                        JSONObject jsonObject2 = new JSONObject(response2);
+                        info = jsonObject2.getString("info");
+                        column = jsonObject2.getString("column");
+                        dist_link = jsonObject2.getString("dist_link");
+
+                        editor.putString("DIST", dist_link);
+                        editor.apply();
+                    } catch (JSONException e) {
+
+                    }
+                }, error -> {
+                    Log.d("Error", Objects.requireNonNull(error.toString()));
+                });
+                requestQueue.add(re);
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/total", response1 -> {
                     try {
                         JSONObject json = new JSONObject(response1);
@@ -80,9 +101,10 @@ public class HomeViewModel extends AndroidViewModel {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                             headerData.add(new HeaderData(jsonObject1.getString("stat1"), jsonObject1.getString("heading"), jsonObject1.getString("subheading"), jsonObject1.getString("oldcount"),
-                                    jsonObject1.getString("color")));
+                                    jsonObject1.getString("color"), info, column));
                             dataMutableLiveData.setValue(headerData);
                         }
+                        saveData(headerData);
                     } catch (JSONException e) {
                         Log.e("Error", String.valueOf(e));
                     }
@@ -96,9 +118,32 @@ public class HomeViewModel extends AndroidViewModel {
                 Log.d("Error", e.getMessage());
             }
         }, error -> {
+            loadData();
         });
         requestQueue.add(stringReques);
         //Need to be continued -> sharedPrefernces
+    }
 
+    public void saveData(ArrayList headerData) {
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("DATA", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(headerData);
+        editor.putString("headerlist", json);
+        editor.apply();
+    }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("DATA", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("headerlist", null);
+        Type type = new TypeToken<ArrayList<HeaderData>>() {
+        }.getType();
+        headerData = gson.fromJson(json, type);
+
+        if (headerData == null) {
+            headerData = new ArrayList<>();
+        }
+        dataMutableLiveData.setValue(headerData);
     }
 }

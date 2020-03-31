@@ -25,8 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -38,12 +38,12 @@ import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 public class StateAdapter extends RecyclerView.Adapter<StateAdapter.ViewHolder> {
-    private ArrayList<ArrayList<StateData>> stateDataList;
+    private List<StateData> stateDataList;
     private double[] predictedVal = new double[300];
     private Context mContext;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
 
-    public StateAdapter(ArrayList<ArrayList<StateData>> stateDataList, Context mContext) {
+    public StateAdapter(List<StateData> stateDataList, Context mContext) {
         this.stateDataList = stateDataList;
         this.mContext = mContext;
     }
@@ -59,13 +59,13 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull StateAdapter.ViewHolder holder, int position) {
 
-        holder.statename.setText(stateDataList.get(position).get(position).getStatename());
-        holder.cases.setText(stateDataList.get(position).get(position).getCases());
-        holder.cured.setText(stateDataList.get(position).get(position).getCured());
-        holder.deaths.setText(stateDataList.get(position).get(position).getDeath());
-        holder.subheading1.setText(stateDataList.get(position).get(position).getSubheading1());
-        holder.subheading3.setText(stateDataList.get(position).get(position).getSubheading2());
-        holder.subheading2.setText(stateDataList.get(position).get(position).getSubheading3());
+        holder.statename.setText(stateDataList.get(position).getStatename());
+        holder.cases.setText(stateDataList.get(position).getCases());
+        holder.cured.setText(stateDataList.get(position).getCured());
+        holder.deaths.setText(stateDataList.get(position).getDeath());
+        holder.subheading1.setText(stateDataList.get(position).getSubheading1());
+        holder.subheading3.setText(stateDataList.get(position).getSubheading2());
+        holder.subheading2.setText(stateDataList.get(position).getSubheading3());
         if (predictedVal[position] != 0.0) {
             holder.case_predict.setText(df2.format(predictedVal[position]) + " %");
         } else {
@@ -78,7 +78,7 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.ViewHolder> 
             holder.progressBar.setVisibility(View.VISIBLE);
             RequestQueue queue = Volley.newRequestQueue(mContext);
             Map<String, String> postParam = new HashMap<String, String>();
-            postParam.put("state", stateDataList.get(position).get(position).getStatename());
+            postParam.put("state", stateDataList.get(position).getStatename());
 
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                     sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/predict", new JSONObject(postParam),

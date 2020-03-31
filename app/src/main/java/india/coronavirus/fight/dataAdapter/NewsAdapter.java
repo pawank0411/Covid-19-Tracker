@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,11 +19,11 @@ import india.coronavirus.fight.R;
 import india.coronavirus.fight.model.NewData;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
-    private ArrayList<ArrayList<NewData>> headerDataList;
+    private List<NewData> headerDataList;
     private Context mContext;
     private OnItemClickListner listner;
 
-    public NewsAdapter(ArrayList<ArrayList<NewData>> headerDataList, Context mContext, OnItemClickListner listner) {
+    public NewsAdapter(List<NewData> headerDataList, Context mContext, OnItemClickListner listner) {
         this.headerDataList = headerDataList;
         this.mContext = mContext;
         this.listner = listner;
@@ -41,11 +40,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull NewsAdapter.ViewHolder holder, int position) {
         holder.new_Card.setOnClickListener(view -> {
             if (listner != null) {
-                listner.onNewsClicked(headerDataList.get(position).get(position).getLink());
+                listner.onNewsClicked(headerDataList.get(position).getLink());
             }
         });
-        holder.title.setText(headerDataList.get(position).get(position).getTitle());
-        holder.time.setText(headerDataList.get(position).get(position).getTime());
+        holder.title.setText(headerDataList.get(position).getTitle());
+        holder.time.setText(headerDataList.get(position).getTime());
     }
 
     @Override

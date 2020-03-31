@@ -25,7 +25,7 @@ import india.coronavirus.fight.dataAdapter.StateAdapter;
 import india.coronavirus.fight.model.StateData;
 
 public class StateFragment extends Fragment {
-    private ArrayList<ArrayList<StateData>> stateDatalist = new ArrayList<ArrayList<StateData>>();
+    private ArrayList<StateData> stateDatalist = new ArrayList<>();
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -33,6 +33,7 @@ public class StateFragment extends Fragment {
     ProgressBar progressBar;
     @BindView(R.id.quote_layout)
     LinearLayout linearLayout;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -48,7 +49,8 @@ public class StateFragment extends Fragment {
 
         stateViewModel.getData().observe(Objects.requireNonNull(getActivity()), data1 -> {
             if (data1 != null) {
-                stateDatalist.add(data1);
+                stateDatalist.clear();
+                stateDatalist.addAll(data1);
                 stateAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             }

@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,10 +22,10 @@ import india.coronavirus.fight.model.GuideData;
 
 
 public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.ViewHolder> {
-    private ArrayList<ArrayList<GuideData>> headerDataList;
+    private List<GuideData> headerDataList;
     private Context mContext;
 
-    public GuideAdapter(ArrayList<ArrayList<GuideData>> headerDataList, Context mContext) {
+    public GuideAdapter(List<GuideData> headerDataList, Context mContext) {
         this.headerDataList = headerDataList;
         this.mContext = mContext;
     }
@@ -40,11 +39,11 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull GuideAdapter.ViewHolder holder, int position) {
-        holder.guideTitle.setText(headerDataList.get(position).get(position).getTitle());
-        holder.guideDesp.setText(headerDataList.get(position).get(position).getDesp());
+        holder.guideTitle.setText(headerDataList.get(position).getTitle());
+        holder.guideDesp.setText(headerDataList.get(position).getDesp());
 
         holder.cardView.setOnClickListener(view -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(headerDataList.get(position).get(position).getLink()));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(headerDataList.get(position).getLink()));
             mContext.startActivity(browserIntent);
         });
     }

@@ -1,17 +1,23 @@
 package india.coronavirus.fight.ui.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -25,7 +31,7 @@ import india.coronavirus.fight.model.HeaderData;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private ArrayList<HeaderData> headerDatalist = new ArrayList<HeaderData>();;
+    private ArrayList<HeaderData> headerDatalist = new ArrayList<HeaderData>();
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.progress_bar)
@@ -54,7 +60,6 @@ public class HomeFragment extends Fragment {
                 dataAdapter.notifyDataSetChanged();
             }
         });
-
 //        swipeRefreshLayout.setOnRefreshListener(() -> homeViewModel.refreshData());
         return root;
     }

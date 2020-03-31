@@ -78,20 +78,21 @@ public class MainActivity extends AppCompatActivity {
             }
             if (pInfo != null) {
                 newVersion = pInfo.versionName;
+                if (new_version.equals(newVersion)) {
+                    AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                            R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                            .build();
+                    navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+                    NavigationUI.setupWithNavController(navView, navController);
+                } else {
+                    Intent intent = new Intent(this, About.class);
+                    intent.putExtra("fromMainActivity", true);
+                    startActivity(intent);
+                }
             }
 
-            if (new_version.equals(newVersion)) {
-                AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                        R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                        .build();
-                navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-                NavigationUI.setupWithNavController(navView, navController);
-            } else {
-                Intent intent = new Intent(this, About.class);
-                intent.putExtra("fromMainActivity", true);
-                startActivity(intent);
-            }
         });
+        quoteList.add("Lockdown means LOCKDOWN! Avoid going out unless absolutely necessary. Stay safe!  ");
         quoteList.add("Don't Hoard groceries and essentials. Please ensure that people who are in need don't face a shortage because of you!");
         quoteList.add("Plan ahead! Take a minute and check how much you have at home. Planning ahead let's you buy exactly what you need!");
         quoteList.add("If you have symptoms and suspect you have coronavirus - reach out to your doctor or call state helplines. \uD83D\uDCDE Get help.");
@@ -100,8 +101,15 @@ public class MainActivity extends AppCompatActivity {
         quoteList.add("Be considerate : While buying essentials remember : You need to share with 130 Crore Others!  ");
         quoteList.add("Stand Against FAKE News and WhatsApp Forwards! Do NOT ❌ forward a message until you verify the content it contains.");
         quoteList.add("Be compassionate! Help those in need like the elderly and poor. They are facing a crisis you cannot even imagine!  ");
+        quoteList.add("If you have any queries, reach out to your district administration or doctors!  ");
+        quoteList.add("The hot weather will not stop the virus! You can! Stay home, stay safe. ");
+        quoteList.add("Avoid going out during the lockdown. Help break the chain of spread.");
+        quoteList.add("Help the medical fraternity by staying at home!");
+//        quoteList.add("Plan and calculate your essential needs for the next three weeks and get only what is bare minimum needed.");
+        quoteList.add("Call up your loved ones during the lockdown, support each other through these times.");
+        quoteList.add("Our brothers from the north east are just as Indian as you! Help everyone during this crisis ❤");
 
-        thread = new Thread() {
+                thread = new Thread() {
             @Override
             public void run() {
                 try {

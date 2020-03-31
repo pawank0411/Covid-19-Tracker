@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,10 +21,10 @@ import india.coronavirus.fight.R;
 import india.coronavirus.fight.model.StateData;
 
 public class HelplineAdapter extends RecyclerView.Adapter<HelplineAdapter.ViewHolder> {
-    private ArrayList<ArrayList<StateData>> headerDataList;
+    private List<StateData> headerDataList;
     private Context mContext;
 
-    public HelplineAdapter(ArrayList<ArrayList<StateData>> headerDatalist, Context context) {
+    public HelplineAdapter(List<StateData> headerDatalist, Context context) {
         this.headerDataList = headerDatalist;
         this.mContext = context;
     }
@@ -38,14 +38,14 @@ public class HelplineAdapter extends RecyclerView.Adapter<HelplineAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull HelplineAdapter.ViewHolder holder, int position) {
-        holder.statename.setText(headerDataList.get(position).get(position).getStatename());
-        holder.phoneNumber.setText(headerDataList.get(position).get(position).getHelpline());
+        holder.statename.setText(headerDataList.get(position).getStatename());
+        holder.phoneNumber.setText(headerDataList.get(position).getHelpline());
 
         holder.icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + headerDataList.get(position).get(position).getHelpline().trim()));
+                intent.setData(Uri.parse("tel:" + headerDataList.get(position).getHelpline().trim()));
                 mContext.startActivity(intent);
             }
         });

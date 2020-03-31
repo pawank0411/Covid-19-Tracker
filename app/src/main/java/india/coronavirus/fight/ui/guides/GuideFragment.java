@@ -27,7 +27,7 @@ public class GuideFragment extends Fragment {
     RecyclerView recyclerView;
 
     //NO use
-    private ArrayList<ArrayList<GuideData>> headerDatalist = new ArrayList<>();
+    private ArrayList<GuideData> headerDatalist = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +41,8 @@ public class GuideFragment extends Fragment {
 
         guideViewModel.getData().observe(Objects.requireNonNull(getActivity()), newData -> {
             if (newData != null) {
-                headerDatalist.add(newData);
+                headerDatalist.clear();
+                headerDatalist.addAll(newData);
                 dataAdapter.notifyDataSetChanged();
             }
         });

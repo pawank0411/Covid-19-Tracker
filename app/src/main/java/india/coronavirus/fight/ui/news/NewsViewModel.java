@@ -3,6 +3,7 @@ package india.coronavirus.fight.ui.news;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -12,12 +13,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import india.coronavirus.fight.model.HeaderData;
@@ -27,14 +32,14 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class NewsViewModel extends AndroidViewModel {
 
-    private MutableLiveData<ArrayList<NewData>> dataMutableLiveData;
+    private MutableLiveData<List<NewData>> dataMutableLiveData;
     private ArrayList<NewData> headerData = new ArrayList<>();
 
     public NewsViewModel(Application application) {
         super(application);
     }
 
-    LiveData<ArrayList<NewData>> getData() {
+    LiveData<List<NewData>> getData() {
         if (dataMutableLiveData == null) {
             dataMutableLiveData = new MutableLiveData<>();
             refreshData();
@@ -55,10 +60,38 @@ public class NewsViewModel extends AndroidViewModel {
                     headerData.add(new NewData(jsonObject.getString("title"),jsonObject.getString("link"),jsonObject.getString("time")));
                     dataMutableLiveData.setValue(headerData);
                 }
+                saveData(headerData);
             } catch (JSONException e) {
                 Log.e("Error", String.valueOf(e));
             }
-        }, error -> Log.d("Error", Objects.requireNonNull(error.toString())));
+        }, error -> {
+            loadData();
+            Log.d("Error", Objects.requireNonNull(error.toString()));
+        });
         requestQueue.add(stringRequest);
+    }
+
+    public void saveData(ArrayList headerData) {
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("DATA", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        Toast.makeText(getApplication(), String.valueOf(headerData.size()), Toast.LENGTH_SHORT).show();
+        String json = gson.toJson(headerData);
+        editor.putString("newslist", json);
+        editor.apply();
+    }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("DATA", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("newslist", null);
+        Type type = new TypeToken<ArrayList<NewData>>() {
+        }.getType();
+        headerData = gson.fromJson(json, type);
+
+        if (headerData == null) {
+            headerData = new ArrayList<>();
+        }
+        dataMutableLiveData.setValue(headerData);
     }
 }

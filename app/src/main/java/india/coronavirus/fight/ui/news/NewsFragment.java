@@ -31,7 +31,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
     ProgressBar progressBar;
 
     private NewsAdapter newsAdapter;
-    private ArrayList<ArrayList<NewData>> headerDataArrayList = new ArrayList<>();
+    private ArrayList<NewData> headerDataArrayList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         NewsViewModel dashboardViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
@@ -46,7 +46,8 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
 
         dashboardViewModel.getData().observe(Objects.requireNonNull(getActivity()), data1 -> {
             if (data1 != null) {
-                headerDataArrayList.add(data1);
+                headerDataArrayList.clear();
+                headerDataArrayList.addAll(data1);
                 newsAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             }

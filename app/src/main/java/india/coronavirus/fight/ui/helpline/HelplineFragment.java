@@ -23,8 +23,7 @@ import india.coronavirus.fight.model.StateData;
 
 public class HelplineFragment extends Fragment {
 
-    private HelplineViewModel notificationsViewModel;
-    private ArrayList<ArrayList<StateData>> headerDatalist = new ArrayList<>();
+    private ArrayList<StateData> headerDatalist = new ArrayList<>();
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -33,8 +32,7 @@ public class HelplineFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(HelplineViewModel.class);
+        HelplineViewModel notificationsViewModel = ViewModelProviders.of(this).get(HelplineViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, root);
         progressBar.setVisibility(View.VISIBLE);
@@ -44,7 +42,7 @@ public class HelplineFragment extends Fragment {
         recyclerView.setAdapter(helplineAdapter);
         notificationsViewModel.getData().observe(Objects.requireNonNull(getActivity()), data1 -> {
             if (data1 != null) {
-                headerDatalist.add(data1);
+                headerDatalist.addAll(data1);
                 helplineAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             }

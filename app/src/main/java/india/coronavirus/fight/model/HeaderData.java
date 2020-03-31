@@ -6,13 +6,33 @@ public class HeaderData {
     private String subheader;
     private String newcase;
     private String color;
+    private String column;
+    private String info;
 
-    public HeaderData(String cases, String header, String subheader, String new_case, String color) {
+    public HeaderData(String cases, String header, String subheader, String new_case, String color, String info, String column) {
         this.cases = cases;
         this.header = header;
         this.subheader = subheader;
         this.newcase = new_case;
         this.color = color;
+        this.column = column;
+        this.info = info;
+    }
+
+    public String getColumn() {
+        return column;
+    }
+
+    public void setColumn(String column) {
+        this.column = column;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public String getColor() {

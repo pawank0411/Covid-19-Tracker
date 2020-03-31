@@ -1,5 +1,6 @@
 package india.coronavirus.fight;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -19,12 +20,13 @@ public class HeatMap extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_web);
 
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("API", MODE_PRIVATE);
         WebView webView = findViewById(R.id.web);
         progressBar = findViewById(R.id.progress_bar);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setPluginState(WebSettings.PluginState.ON);
         webView.setWebViewClient(new webViewClient());
-        webView.loadUrl("http://ac41bf31.ngrok.io/india");
+        webView.loadUrl(sharedPreferences.getString("API","http://ac41bf31.ngrok.io"));
     }
 
     public class webViewClient extends WebViewClient {
