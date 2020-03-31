@@ -87,11 +87,13 @@ public class MainActivity extends AppCompatActivity {
                 lastUp = json.getString("timestamp");
                 editor.putString("time", lastUp);
                 editor.apply();
-                if (sharedPreferences.getString("time", "null") != null) {
+                sharedPreferences.getString("time", "null");
+                if (!Objects.equals(sharedPreferences.getString("time", null), "")) {
                     lastup.setText("Last updated " + sharedPreferences.getString("time", "null").substring(3));
                 }
             } catch (JSONException e) {
-                if (sharedPreferences.getString("time", "null") != null) {
+                sharedPreferences.getString("time", "null");
+                if (!Objects.equals(sharedPreferences.getString("time", null), "")) {
                     lastup.setText("Last updated " + sharedPreferences.getString("time", "null").substring(3));
                 }
                 Log.e("Error", String.valueOf(e));

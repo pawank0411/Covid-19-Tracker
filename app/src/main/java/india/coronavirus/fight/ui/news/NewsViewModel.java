@@ -42,7 +42,6 @@ public class NewsViewModel extends AndroidViewModel {
     LiveData<List<NewData>> getData() {
         if (dataMutableLiveData == null) {
             dataMutableLiveData = new MutableLiveData<>();
-            loadData();
             refreshData();
         }
         return dataMutableLiveData;
@@ -63,10 +62,12 @@ public class NewsViewModel extends AndroidViewModel {
                 }
                 saveData(headerData);
             } catch (JSONException e) {
-                Log.e("Error", String.valueOf(e));
+                loadData();
+                Log.e("Error2", String.valueOf(e));
             }
         }, error -> {
-            Log.d("Error", Objects.requireNonNull(error.toString()));
+            loadData();
+            Log.d("Error1", Objects.requireNonNull(error.toString()));
         });
         requestQueue.add(stringRequest);
     }

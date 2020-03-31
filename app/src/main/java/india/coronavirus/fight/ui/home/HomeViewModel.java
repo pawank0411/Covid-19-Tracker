@@ -46,7 +46,7 @@ public class HomeViewModel extends AndroidViewModel {
     LiveData<List<HeaderData>> getData() {
         if (dataMutableLiveData == null) {
             dataMutableLiveData = new MutableLiveData<>();
-            loadData();
+
             refreshData();
         }
 
@@ -69,7 +69,7 @@ public class HomeViewModel extends AndroidViewModel {
 
             }
         }, error -> {
-//
+            loadData();
             Log.d("Error1", Objects.requireNonNull(error.toString()));
         });
         requestQueue.add(re);
@@ -108,19 +108,22 @@ public class HomeViewModel extends AndroidViewModel {
                         }
                         saveData(headerData);
                     } catch (JSONException e) {
+                        loadData();
                         Log.e("Error2", String.valueOf(e));
                     }
                 }, error -> {
+                    loadData();
                     Log.d("Error", Objects.requireNonNull(error.toString()));
                 });
                 //adding the string request to request queue
                 requestQueue.add(stringRequest);
 
             } catch (JSONException e) {
+                loadData();
                 Log.d("Error3", e.getMessage());
             }
         }, error -> {
-//
+            loadData();
             Log.d("Error4", Objects.requireNonNull(error.toString()));
         });
         requestQueue.add(stringReques);

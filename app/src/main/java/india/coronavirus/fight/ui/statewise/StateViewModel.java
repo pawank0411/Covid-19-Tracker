@@ -41,7 +41,6 @@ public class StateViewModel extends AndroidViewModel {
     LiveData<List<StateData>> getData() {
         if (dataMutableLiveData == null) {
             dataMutableLiveData = new MutableLiveData<>();
-            loadData();
             refreshData();
         }
         return dataMutableLiveData;
@@ -64,9 +63,11 @@ public class StateViewModel extends AndroidViewModel {
                 }
                 saveData(stateDataArrayList);
             } catch (JSONException e) {
+                loadData();
                 Log.e("Error", String.valueOf(e));
             }
         }, error -> {
+            loadData();
             Log.d("Error", Objects.requireNonNull(error.toString()));
         });
         requestQueue.add(stringRequest);

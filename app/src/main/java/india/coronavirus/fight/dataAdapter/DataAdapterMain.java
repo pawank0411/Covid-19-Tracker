@@ -101,7 +101,7 @@ public class DataAdapterMain extends RecyclerView.Adapter<DataAdapterMain.ViewHo
         holder.new_case.setText(formatter.format(Integer.parseInt(headerDataList.get(position).getNewcase())));
         char symbol = 0;
         String text = "";
-        if (headerData.getInfo() != null) {
+        if (headerData.getInfo() != null && !headerData.getInfo().equals("")) {
             text = headerData.getInfo();
             if (text.charAt(0) == '[') {
                 symbol = headerData.getInfo().charAt(2);
