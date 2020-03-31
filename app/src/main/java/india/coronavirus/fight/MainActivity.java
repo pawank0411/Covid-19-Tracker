@@ -1,17 +1,25 @@
 package india.coronavirus.fight;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -25,8 +33,11 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.onesignal.OneSignal;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import india.coronavirus.fight.utilities.DownloadDistrictFile;
 
 public class MainActivity extends AppCompatActivity {
     private NavController navController;
@@ -38,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private Thread thread;
     private ArrayList<String> quoteList = new ArrayList<>();
     private Integer i = 0;
+    private static final int EXTERNAL_STORAGE_PERMISSION_CODE = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +68,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("API", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-
+        askPermission();
+        DownloadDistrictFile downloadDistrictFile = new DownloadDistrictFile(this);
+        downloadDistrictFile.newDownload("https://www.mohfw.gov.in/pdf/DistrictWiseList324.pdf");
         CollectionReference apiCollection = FirebaseFirestore.getInstance().collection("apilink");
         apiCollection.addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (queryDocumentSnapshots != null) {
@@ -109,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         quoteList.add("Call up your loved ones during the lockdown, support each other through these times.");
         quoteList.add("Our brothers from the north east are just as Indian as you! Help everyone during this crisis ❤");
 
-                thread = new Thread() {
+        thread = new Thread() {
             @Override
             public void run() {
                 try {
@@ -134,6 +148,97 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
 
 
+    }
+
+    private void askPermission() {
+        if (!hasPermission()) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Permission needed")
+                        .setMessage("Storage permission is needed to store Districts wise stats")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", (dialog, which) -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                        Manifest.permission.READ_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_PERMISSION_CODE);
+                            }
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> {
+                            dialog.dismiss();
+                            finish();
+                        }).create().show();
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_PERMISSION_CODE);
+                }
+            }
+
+        }
+    }
+
+
+    private boolean hasPermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == EXTERNAL_STORAGE_PERMISSION_CODE) {
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                checkFolder();
+            } else {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) || !ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    new AlertDialog.Builder(this)
+                            .setTitle("Permission needed")
+                            .setMessage("Storage permission is needed store DistrictWiseData. Press OK to enable in settings.")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", (dialog, which) -> {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                intent.setData(uri);
+                                startActivityForResult(intent, EXTERNAL_STORAGE_PERMISSION_CODE);
+                            })
+                            .setNegativeButton("Cancel", (dialog, which) -> {
+                                dialog.dismiss();
+                                finish();
+                            }).create().show();
+
+
+                } else {
+
+                    new AlertDialog.Builder(this)
+                            .setTitle("Permission needed")
+                            .setMessage("Storage permission is needed to read WhatsApp Media")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", (dialog, which) -> {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                            Manifest.permission.READ_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_PERMISSION_CODE);
+                                }
+                            })
+                            .setNegativeButton("Cancel", (dialog, which) -> {
+                                dialog.dismiss();
+                                finish();
+                            }).create().show();
+                }
+            }
+        }
+    }
+
+    public void checkFolder() {
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/covid19 India/";
+        File dir = new File(path);
+        boolean isDirectoryCreated = dir.exists();
+        if (!isDirectoryCreated) {
+            isDirectoryCreated = dir.mkdir();
+        }
+        if (isDirectoryCreated) {
+            // do something\
+            Log.d("Folder", "Already Created");
+        }
     }
 
     @Override

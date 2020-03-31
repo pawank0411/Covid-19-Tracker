@@ -42,6 +42,7 @@ public class HelplineFragment extends Fragment {
         recyclerView.setAdapter(helplineAdapter);
         notificationsViewModel.getData().observe(Objects.requireNonNull(getActivity()), data1 -> {
             if (data1 != null) {
+                headerDatalist.clear();
                 headerDatalist.addAll(data1);
                 helplineAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);

@@ -24,6 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import india.coronavirus.fight.R;
+import india.coronavirus.fight.utilities.AppStatus;
 import india.coronavirus.fight.model.HeaderData;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -32,10 +33,12 @@ public class DataAdapterMain extends RecyclerView.Adapter<DataAdapterMain.ViewHo
     private List<HeaderData> headerDataList;
     private Context mContext;
     private SharedPreferences sharedPreferences;
+    private AppStatus appStatus;
 
     public DataAdapterMain(ArrayList<HeaderData> headerDatalist, Context context) {
         this.headerDataList = headerDatalist;
         this.mContext = context;
+        appStatus = new AppStatus(mContext);
     }
 
     @NonNull
@@ -52,10 +55,14 @@ public class DataAdapterMain extends RecyclerView.Adapter<DataAdapterMain.ViewHo
         if (!sharedPreferences.getString("showgraph", "1").equals("1")) {
             holder.grahView.setVisibility(View.GONE);
         }
+        if (!appStatus.haveNetworkConnection()) {
+            holder.grahView.setVisibility(View.GONE);
+        }
         HeaderData headerData = headerDataList.get(position);
         holder.grahView.setScrollbarFadingEnabled(true);
         holder.grahView.setVerticalScrollBarEnabled(false);
         holder.grahView.setHorizontalScrollBarEnabled(false);
+
         if (headerData.getHeader().trim().equals("CONFIRMED")) {
             holder.grahView.loadUrl(sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/graphsvg/cases");
         } else if (headerData.getHeader().trim().equals("ACTIVE")) {

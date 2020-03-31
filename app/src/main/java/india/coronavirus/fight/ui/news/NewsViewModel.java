@@ -75,7 +75,6 @@ public class NewsViewModel extends AndroidViewModel {
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences("DATA", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        Toast.makeText(getApplication(), String.valueOf(headerData.size()), Toast.LENGTH_SHORT).show();
         String json = gson.toJson(headerData);
         editor.putString("newslist", json);
         editor.apply();
