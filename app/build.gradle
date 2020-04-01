@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url 'https://plugins.gradle.org/m2/'}
     }
     dependencies {
         classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.12.6'
@@ -37,6 +37,7 @@ android {
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]
+        ndkVersion "major.minor.build"
     }
 
     buildTypes {
@@ -46,6 +47,9 @@ android {
         }
     }
     ndkVersion "21.0.6113669"
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
