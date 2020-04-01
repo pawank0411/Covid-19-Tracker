@@ -1,7 +1,6 @@
 package india.coronavirus.fight;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -82,12 +81,13 @@ public class MainActivity extends AppCompatActivity {
         downloadDistrictFile.newDownload(sharedPreferences.getString("DIST", ""));
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
-        @SuppressLint("SetTextI18n") StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/extras", response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/extras", response -> {
             try {
                 JSONObject json = new JSONObject(response);
                 lastUp = json.getString("timestamp");
                 editor.putString("time", lastUp);
                 editor.apply();
+                sharedPreferences.getString("time", "null");
                 if (!Objects.equals(sharedPreferences.getString("time", null), "")) {
                     lastup.setText("Last updated " + sharedPreferences.getString("time", "null").substring(3));
                 }
