@@ -37,6 +37,7 @@ android {
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]
+        ndkVersion "major.minor.build"
     }
 
     buildTypes {
