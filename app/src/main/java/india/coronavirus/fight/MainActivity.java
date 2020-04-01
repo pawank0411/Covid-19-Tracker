@@ -49,7 +49,6 @@ import india.coronavirus.fight.utilities.DownloadDistrictFile;
 public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private String api;
-    private String version;
     private SharedPreferences.Editor editor;
     private String new_version;
     private String newVersion;
@@ -99,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("Error", String.valueOf(e));
             }
         }, error -> {
+            sharedPreferences.getString("time", "null");
+            if (!Objects.equals(sharedPreferences.getString("time", null), "")) {
+                lastup.setText("Last updated " + sharedPreferences.getString("time", "null").substring(3));
+            }
             Log.d("Error", Objects.requireNonNull(error.toString()));
         });
         requestQueue.add(stringRequest);
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     new_version = documentChange.getDocument().getString("version");
                     String showgraph = documentChange.getDocument().getString("showGraph");
                     editor.putString("showgraph", showgraph);
-                    editor.putString("new_version", version);
+                    editor.putString("new_version", new_version);
                     editor.putString("API", api);
                     editor.apply();
                 }
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if (pInfo != null) {
                 newVersion = pInfo.versionName;
-                if (new_version.equals(newVersion)) {
+                if (sharedPreferences.getString("new_version", "").equals(newVersion)) {
                     AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                             R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_guides,
                             R.id.navigation_statewise)
