@@ -12,7 +12,7 @@
     <string name="speedx"><u>SpeedX</u></string>
     <string name="update">Update Available:<u>\nhttp://tiny.cc/covid-19india</u></string>
     <string name="update2"><u>https://github.com/Pawan0411/Covid-19/releases</u></string>
-    <string name="this_app_is_about_updates_related_to_coronavirus_in_india">v1.7\nThis app is about updates related to coronavirus in India. \n
+    <string name="this_app_is_about_updates_related_to_coronavirus_in_india">v1.8\nThis app is about updates related to coronavirus in India. \n
                     All data are fetched from Ministry of Health and Family Welfare website.</string>
     <string name="recoverd">Recovered</string>
     <string name="title_heatmap">Heat Map</string>

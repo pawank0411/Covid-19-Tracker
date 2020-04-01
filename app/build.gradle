@@ -23,7 +23,7 @@ android {
         minSdkVersion 22
         targetSdkVersion 29
         versionCode 1
-        versionName "1.7"
+        versionName "1.8"
 
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
@@ -37,7 +37,6 @@ android {
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]
-        ndkVersion "major.minor.build"
     }
 
     buildTypes {

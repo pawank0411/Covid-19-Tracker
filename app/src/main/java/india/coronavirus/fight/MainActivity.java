@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) || !ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     new AlertDialog.Builder(this)
                             .setTitle("Permission needed")
-                            .setMessage("Storage permission is needed store DistrictWiseData. Press OK to enable in settings.")
+                            .setMessage("Storage permission is needed to store Districts wise stats. Press OK to enable in settings.")
                             .setCancelable(false)
                             .setPositiveButton("OK", (dialog, which) -> {
                                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
 
                     new AlertDialog.Builder(this)
                             .setTitle("Permission needed")
-                            .setMessage("Storage permission is needed to read WhatsApp Media")
+                            .setMessage("Storage permission is needed to store Districts wise stats")
                             .setCancelable(false)
                             .setPositiveButton("OK", (dialog, which) -> {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
