@@ -33,9 +33,9 @@ public class LoadPDF extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.templayout);
         PDFView pdfView = findViewById(R.id.pdfView);
-        File file = new File("/storage/emulated/0/covid19 India/districtData.pdf");
+        File file = new File("/storage/emulated/0/covid19India/districtData.pdf");
         if (file.exists()) {
-            pdfView.fromFile(new File("/storage/emulated/0/covid19 India/districtData.pdf"))
+            pdfView.fromFile(new File("/storage/emulated/0/covid19India/districtData.pdf"))
                     .enableSwipe(true) // allows to block changing pages using swipe
                     .swipeHorizontal(false)
                     .enableDoubletap(true)

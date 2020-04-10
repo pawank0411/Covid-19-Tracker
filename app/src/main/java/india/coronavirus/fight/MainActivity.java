@@ -72,13 +72,13 @@ public class MainActivity extends AppCompatActivity {
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .init();
-
+        checkFolder();
         SharedPreferences sharedPreferences = this.getSharedPreferences("API", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
         askPermission();
         DownloadDistrictFile downloadDistrictFile = new DownloadDistrictFile(this);
-        downloadDistrictFile.newDownload(sharedPreferences.getString("DIST", ""));
+        downloadDistrictFile.newDownload(sharedPreferences.getString("DIST",""));
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
         @SuppressLint("SetTextI18n") StringRequest stringRequest = new StringRequest(Request.Method.GET, sharedPreferences.getString("API", "http://ac41bf31.ngrok.io") + "/api/extras", response -> {
@@ -223,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == EXTERNAL_STORAGE_PERMISSION_CODE) {
 
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                checkFolder();
             } else {
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) || !ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     new AlertDialog.Builder(this)
@@ -264,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkFolder() {
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/covid19 India/";
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/covid19India/";
         File dir = new File(path);
         boolean isDirectoryCreated = dir.exists();
         if (!isDirectoryCreated) {

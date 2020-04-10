@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,7 +14,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.UUID;
 
 public class DownloadDistrictFile {
 
@@ -50,11 +48,10 @@ public class DownloadDistrictFile {
                 }
 
                 int fileLength = connection.getContentLength();
-
                 input = connection.getInputStream();
                 fileN = "districtData" + ".pdf";
                 File filename = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
-                        "/covid19 India/", fileN);
+                        "/covid19India/", fileN);
                 output = new FileOutputStream(filename);
 
                 byte data[] = new byte[4096];
@@ -102,7 +99,7 @@ public class DownloadDistrictFile {
             }
             MediaScannerConnection.scanFile(context,
                     new String[]{Environment.getExternalStorageDirectory().getAbsolutePath() +
-                            "/covid19 India/" + fileN}, null,
+                            "/covid19India/" + fileN}, null,
                     new MediaScannerConnection.OnScanCompletedListener() {
                         public void onScanCompleted(String newpath, Uri newuri) {
                             Log.i("ExternalStorage", "Scanned " + newpath + ":");

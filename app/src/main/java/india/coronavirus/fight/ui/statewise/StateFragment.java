@@ -1,6 +1,7 @@
 package india.coronavirus.fight.ui.statewise;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -29,7 +30,10 @@ import india.coronavirus.fight.R;
 import india.coronavirus.fight.dataAdapter.StateAdapter;
 import india.coronavirus.fight.model.StateData;
 import india.coronavirus.fight.utilities.AppStatus;
+import india.coronavirus.fight.utilities.DownloadDistrictFile;
 import india.coronavirus.fight.utilities.LoadPDF;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class StateFragment extends Fragment {
     private ArrayList<StateData> stateDatalist = new ArrayList<>();
@@ -79,18 +83,23 @@ public class StateFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        File file = new File("/storage/emulated/0/covid19 India/districtData.pdf");
-        if (file.exists()) {
-            announcementLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        File file = new File("/storage/emulated/0/covid19India/districtData.pdf");
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("API", MODE_PRIVATE);
+        announcementLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (file.exists()) {
                     Intent intent = new Intent(getContext(), LoadPDF.class);
                     startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), "Download in progress. Please after some time.", Toast.LENGTH_SHORT).show();
+                    DownloadDistrictFile downloadDistrictFile = new DownloadDistrictFile(getContext());
+                    downloadDistrictFile.newDownload(sharedPreferences.getString("DIST", ""));
+                    Objects.requireNonNull(getActivity()).recreate();
                 }
-            });
-        } else {
-            Toast.makeText(getContext(), "Download error", Toast.LENGTH_SHORT).show();
-        }
+            }
+        });
+
         return root;
     }
 
