@@ -92,7 +92,7 @@ public class StateFragment extends Fragment {
                     Intent intent = new Intent(getContext(), LoadPDF.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getContext(), "Download in progress. Please after some time.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Download in progress. Please try after some time.", Toast.LENGTH_SHORT).show();
                     DownloadDistrictFile downloadDistrictFile = new DownloadDistrictFile(getContext());
                     downloadDistrictFile.newDownload(sharedPreferences.getString("DIST", ""));
                     Objects.requireNonNull(getActivity()).recreate();
