@@ -1,4 +1,7 @@
 # 📈COVID-19 India Tracker 
+
+:heavy_exclamation_mark: **THIS APP IS NO LONGER MAINTAINED**
+
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 A simple Android app to track COVID-19 cases in India.
