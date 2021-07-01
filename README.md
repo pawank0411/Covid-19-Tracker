@@ -1,5 +1,7 @@
 # 📈COVID-19 India Tracker 
 
+💉 Try this [GetVaccinated](https://github.com/pawank0411/GetVaccinated)
+
 :heavy_exclamation_mark: **THIS APP IS NO LONGER MAINTAINED**
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
